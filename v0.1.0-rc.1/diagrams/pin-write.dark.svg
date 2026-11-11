@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1274" viewBox="0 0 1200 1274" role="img" aria-labelledby="pin-write-title pin-write-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="pin-write-title">One pin call, and what each outcome leaves</title>
+<desc id="pin-write-desc">Flow chart of SetOutputs(): compute the new pair from the driver's copy, write it, read it back when Verify::ReadBack is passed, then Ok, Bus or WriteMismatch; ReadOutputLatch() reads what the chip holds.</desc>
+<defs><marker id="fk-arrow-amber-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FBBF24"/></marker><marker id="fk-arrow-green-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4ADE80"/></marker><marker id="fk-arrow-rail" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6C7889"/></marker><marker id="fk-arrow-rose-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FB7185"/></marker><marker id="fk-arrow-slate-strong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#94A3B8"/></marker></defs>
+<rect x="0.5" y="0.5" width="1199" height="1273" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">API GUIDE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">One pin call, and what each outcome leaves</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Every pin setter works the same way: . Shown here for SetOutputs(), whose pair is the output port.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<rect x="32" y="971.8" width="1136" height="241" rx="14" fill="#1B232E" stroke="#3A4656" stroke-width="1.2"/>
+<path d="M596 172.3 L698 172.3" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-slate-strong)"/>
+<path d="M312 210.8 L312 248.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M312 344.8 L312 382.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 421.3 L698 421.3" fill="none" stroke="#FB7185" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M312 459.8 L312 497.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 536.3 L698 536.3" fill="none" stroke="#4ADE80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-green-strong)"/>
+<path d="M312 574.8 L312 612.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 651.3 L698 651.3" fill="none" stroke="#FB7185" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rose-strong)"/>
+<path d="M312 689.8 L312 727.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<path d="M596 766.3 L698 766.3" fill="none" stroke="#FBBF24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-amber-strong)"/>
+<path d="M312 804.8 L312 842.8" fill="none" stroke="#6C7889" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#fk-arrow-rail)"/>
+<rect x="32" y="137.8" width="560" height="69" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="32" y="145.8" width="4" height="53" rx="2" fill="#2BB3A3"/>
+<rect x="702" y="137.8" width="466" height="69" rx="10" fill="#1B232E" stroke="#94A3B8" stroke-width="1.4"/>
+<rect x="702" y="145.8" width="4" height="53" rx="2" fill="#94A3B8"/>
+<rect x="32" y="252.8" width="560" height="88" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="260.8" width="4" height="72" rx="2" fill="#60A5FA"/>
+<rect x="32" y="386.8" width="560" height="69" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="394.8" width="4" height="53" rx="2" fill="#60A5FA"/>
+<rect x="702" y="377.3" width="466" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="702" y="385.3" width="4" height="72" rx="2" fill="#FB7185"/>
+<rect x="32" y="501.8" width="560" height="69" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="32" y="509.8" width="4" height="53" rx="2" fill="#60A5FA"/>
+<rect x="702" y="501.8" width="466" height="69" rx="10" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<rect x="702" y="509.8" width="4" height="53" rx="2" fill="#4ADE80"/>
+<rect x="32" y="616.8" width="560" height="69" rx="10" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<rect x="32" y="624.8" width="4" height="53" rx="2" fill="#60A5FA"/>
+<rect x="702" y="607.3" width="466" height="88" rx="10" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<rect x="702" y="615.3" width="4" height="72" rx="2" fill="#FB7185"/>
+<rect x="32" y="731.8" width="560" height="69" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="32" y="739.8" width="4" height="53" rx="2" fill="#60A5FA"/>
+<rect x="702" y="722.3" width="466" height="88" rx="10" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<rect x="702" y="730.3" width="4" height="72" rx="2" fill="#FBBF24"/>
+<rect x="32" y="846.8" width="560" height="69" rx="10" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<rect x="32" y="854.8" width="4" height="53" rx="2" fill="#4ADE80"/>
+<rect x="48" y="1012.8" width="290" height="182" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="48" y="1020.8" width="4" height="166" rx="2" fill="#60A5FA"/>
+<rect x="354" y="1012.8" width="290" height="182" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="354" y="1020.8" width="4" height="166" rx="2" fill="#94A3B8"/>
+<rect x="660" y="1012.8" width="492" height="182" rx="10" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<rect x="660" y="1020.8" width="4" height="166" rx="2" fill="#2BB3A3"/>
+<text x="52" y="164.6" font-size="15" font-weight="700" fill="#A7F3E6">SetOutputs(mask, high)</text>
+<text x="52" y="189.4" font-size="13" fill="#D2DAE4">checks that the driver is started and the mask is not 0</text>
+<text x="722" y="164.6" font-size="15" font-weight="700" fill="#E2E8F0">NotInitialized or InvalidArgument</text>
+<text x="722" y="189.4" font-size="13" fill="#D2DAE4">nothing sent, the copy unchanged</text>
+<rect x="633.3" y="162.3" width="27.3" height="20" rx="10" fill="#0E131A"/>
+<text x="647" y="176.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">no</text>
+<text x="52" y="279.6" font-size="15" font-weight="700" fill="#BFDBFE">1  Compute from the driver's copy</text>
+<text x="52" y="304.4" font-size="13" fill="#D2DAE4">new pair = GetConfig().output_high_mask with the mask bits set or cleared</text>
+<text x="52" y="323.2" font-size="13" fill="#D2DAE4">the chip is not read first</text>
+<rect x="295.2" y="219.8" width="33.6" height="20" rx="10" fill="#0E131A"/>
+<text x="312" y="234.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">yes</text>
+<text x="52" y="413.6" font-size="15" font-weight="700" fill="#BFDBFE">2  Write the pair</text>
+<text x="52" y="438.4" font-size="13" fill="#D2DAE4">one transfer: command 0x02, then port 0, then port 1</text>
+<text x="722" y="404.1" font-size="15" font-weight="700" fill="#FECDD3">Bus</text>
+<text x="722" y="428.9" font-size="13" fill="#D2DAE4">the pair may have arrived: the copy takes it, marked</text>
+<text x="722" y="447.8" font-size="13" fill="#D2DAE4">unknown; the next call reads it first</text>
+<rect x="628.3" y="411.3" width="37.3" height="20" rx="10" fill="#0E131A"/>
+<text x="647" y="425.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">fails</text>
+<text x="52" y="528.5" font-size="15" font-weight="700" fill="#E8EDF3">verify argument?</text>
+<text x="52" y="553.4" font-size="13" fill="#D2DAE4">the call's last argument, Verify::None by default</text>
+<rect x="292.5" y="468.8" width="39.1" height="20" rx="10" fill="#0E131A"/>
+<text x="312" y="483.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">ACK</text>
+<text x="722" y="528.5" font-size="15" font-weight="700" fill="#BBF7D0">Ok</text>
+<text x="722" y="553.4" font-size="13" fill="#D2DAE4">the copy now holds the new pair; nothing read back</text>
+<rect x="624.8" y="526.3" width="44.4" height="20" rx="10" fill="#0E131A"/>
+<text x="647" y="540.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">None</text>
+<text x="52" y="643.5" font-size="15" font-weight="700" fill="#BFDBFE">3  Read the pair back</text>
+<text x="52" y="668.4" font-size="13" fill="#D2DAE4">one 2-byte read of 0x02, 0x03</text>
+<rect x="275.6" y="583.8" width="72.8" height="20" rx="10" fill="#0E131A"/>
+<text x="312" y="598.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">ReadBack</text>
+<text x="722" y="634" font-size="15" font-weight="700" fill="#FECDD3">Bus</text>
+<text x="722" y="658.9" font-size="13" fill="#D2DAE4">the write was acknowledged: the copy takes it, marked</text>
+<text x="722" y="677.8" font-size="13" fill="#D2DAE4">unknown until a read or a successful write</text>
+<rect x="628.3" y="641.3" width="37.3" height="20" rx="10" fill="#0E131A"/>
+<text x="647" y="655.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">fails</text>
+<text x="52" y="758.5" font-size="15" font-weight="700" fill="#E8EDF3">4  Compare with what was written</text>
+<text x="52" y="783.4" font-size="13" fill="#D2DAE4">the bytes the chip returned</text>
+<text x="722" y="749" font-size="15" font-weight="700" fill="#FDE68A">WriteMismatch</text>
+<text x="722" y="773.9" font-size="13" fill="#D2DAE4">the chip acknowledged the write but kept something else</text>
+<text x="722" y="792.8" font-size="13" fill="#D2DAE4">the copy keeps what was asked, so retrying the call sends it again</text>
+<rect x="621" y="756.3" width="52" height="20" rx="10" fill="#0E131A"/>
+<text x="647" y="770.6" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">differs</text>
+<text x="52" y="873.5" font-size="15" font-weight="700" fill="#BBF7D0">Ok</text>
+<text x="52" y="898.4" font-size="13" fill="#D2DAE4">the chip holds the new pair, and so does the copy</text>
+<rect x="289.6" y="813.8" width="44.8" height="20" rx="10" fill="#0E131A"/>
+<text x="312" y="828.1" font-size="12" font-weight="500" text-anchor="middle" fill="#9AA6B5">same</text>
+<text x="48" y="996.8" font-size="13" font-weight="700" fill="#E2E8F0">COPY AND CHIP</text>
+<text x="170.4" y="996.8" font-size="12" fill="#E2E8F0">GetConfig() is never read from the chip; the read-back calls always are</text>
+<text x="68" y="1039.5" font-size="15" font-weight="700" fill="#E8EDF3">GetConfig()</text>
+<text x="68" y="1064.4" font-size="13" fill="#D2DAE4">the driver's copy: what was asked for</text>
+<text x="68" y="1083.2" font-size="13" fill="#D2DAE4">no I/O</text>
+<text x="374" y="1039.5" font-size="15" font-weight="700" fill="#E8EDF3">ReadOutputLatch()</text>
+<text x="374" y="1064.4" font-size="13" fill="#D2DAE4">reads 0x02, 0x03 from the chip: what</text>
+<text x="374" y="1083.2" font-size="13" fill="#D2DAE4">it holds</text>
+<text x="374" y="1102.1" font-size="13" fill="#D2DAE4">differs from the copy after a lost write</text>
+<text x="680" y="1039.5" font-size="15" font-weight="700" fill="#A7F3E6">A handler retries</text>
+<text x="680" y="1064.4" font-size="13" fill="#D2DAE4">On WriteMismatch or Bus, call again a bounded number of times: the</text>
+<text x="680" y="1083.2" font-size="13" fill="#D2DAE4">driver stays started and sends the pair again.</text>
+<text x="680" y="1102.1" font-size="13" fill="#D2DAE4">A retried ToggleOutputs() toggles again from the copy (after Bus,</text>
+<text x="680" y="1121" font-size="13" fill="#D2DAE4">from a fresh read).</text>
+<text x="680" y="1139.8" font-size="13" fill="#D2DAE4">If it repeats, compare ReadOutputLatch() with GetConfig() and check</text>
+<text x="680" y="1158.7" font-size="13" fill="#D2DAE4">the bus; after a bus reset, Deinitialize() then EnsureInitialized() writes</text>
+<text x="680" y="1177.5" font-size="13" fill="#D2DAE4">every register again.</text>
+<rect x="32" y="1228.2" width="14" height="14" rx="4" fill="#0F2A28" stroke="#2BB3A3" stroke-width="1.4"/>
+<text x="54" y="1239.8" font-size="12.5" fill="#9AA6B5">your call</text>
+<rect x="131.4" y="1228.2" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="153.4" y="1239.8" font-size="12.5" fill="#9AA6B5">driver steps</text>
+<rect x="251.7" y="1228.2" width="14" height="14" rx="4" fill="#11281A" stroke="#4ADE80" stroke-width="1.4"/>
+<text x="273.7" y="1239.8" font-size="12.5" fill="#9AA6B5">Ok</text>
+<rect x="315.1" y="1228.2" width="14" height="14" rx="4" fill="#321820" stroke="#FB7185" stroke-width="1.4"/>
+<text x="337.1" y="1239.8" font-size="12.5" fill="#9AA6B5">Bus</text>
+<rect x="384.6" y="1228.2" width="14" height="14" rx="4" fill="#2C2310" stroke="#FBBF24" stroke-width="1.4"/>
+<text x="406.6" y="1239.8" font-size="12.5" fill="#9AA6B5">WriteMismatch</text>
+<path d="M524.9 1234.4L554.9 1234.4" fill="none" stroke="#6C7889" stroke-width="1.6" marker-end="url(#fk-arrow-rail)"/>
+<text x="568.9" y="1239.8" font-size="12.5" fill="#9AA6B5">next step</text>
+</svg>

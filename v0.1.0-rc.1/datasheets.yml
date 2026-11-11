@@ -1,0 +1,215 @@
+---
+# The vendor documents this driver was written against (handbook ADR-0019), and where the driver relies on them.
+# Never commit a PDF: `sha256` identifies the exact file that was used, so a reader can confirm they hold the same
+# revision. `pdf` is a stable direct link when the vendor publishes one (page links are built from it, adding
+# `page_offset` when the printed page numbers differ from the PDF's); otherwise readers download from `url`.
+#
+# The README card, docs/datasheet.md and the "Datasheet" box on each page are generated from this file by
+# tools/docs/generators/datasheet.py (`kokeb-docs gen`).
+#
+# The PCAL9555A is a superset of the PCA9555 with the same pins, address and registers 0x00 to 0x07, and the
+# driver's behaviour is defined by it. Every topic cites the PCAL9555A; a second row cites the PCA9555 where the
+# driver also runs on it and that data sheet has its own section (different values, or no Agile I/O).
+documents:
+  - id: pcal9555a
+    vendor: NXP
+    title: PCAL9555A Low-voltage 16-bit I2C-bus GPIO with Agile I/O, interrupt and weak pull-up
+    kind: Datasheet
+    number: PCAL9555A
+    revision: Rev. 2
+    date: 2014-12-19
+    url: https://www.nxp.com/products/PCAL9555A
+    pdf: https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf
+    page_offset: 0
+    sha256: 76a60b066b420e86acdd5d01bcd43ef44ca24f2f1eb0e669987f769c315be888
+  - id: pca9555
+    vendor: NXP
+    title: PCA9555 16-bit I2C-bus and SMBus I/O port with interrupt
+    kind: Datasheet
+    number: PCA9555
+    revision: Rev. 10
+    date: 2017-11-08
+    url: https://www.nxp.com/products/PCA9555
+    pdf: https://www.nxp.com/docs/en/data-sheet/PCA9555.pdf
+    page_offset: 0
+    sha256: 9f4f9c0ce4c461d71e0a46858394f830c74daba72bb6616f368af78a39f44b1f
+
+# One row per thing the driver takes from a document: the data sheet's own section names and printed page
+# numbers, the driver API that implements it, and the docs pages that explain it (file names in docs/).
+topics:
+  # PCAL9555A, Rev. 2
+  - topic: Pins and package
+    doc: pcal9555a
+    section: 5 Pinning information
+    page: 4
+    driver: "-"
+    docs: [hardware, quickstart]
+  - topic: Address pins and the 7-bit address
+    doc: pcal9555a
+    section: 6.1 Device address
+    page: 5
+    driver: "`AddressFromPins()`, `kI2cAddress`, `Error::InvalidArgument`"
+    docs: [hardware, porting, troubleshooting]
+  - topic: Registers and command bytes
+    doc: pcal9555a
+    section: 6.2 Registers; 6.2.1 Pointer register and command byte
+    page: 5
+    driver: "`pcal9555::reg` (`inc/pcal9555_registers.hpp`), `Config::variant`"
+    docs: [hardware, agile-io]
+  - topic: Power-up value of every register
+    doc: pcal9555a
+    section: Table 4 Command byte (power-up default)
+    page: 6
+    driver: "`Config{}`, `Validate()`, the `reg::k...Reset` constants"
+    docs: [configuration, contract]
+  - topic: Input, output, polarity inversion and configuration registers
+    doc: pcal9555a
+    section: 6.2.2 to 6.2.5 Input port, Output port, Polarity inversion and Configuration register pairs
+    page: 7
+    driver: "`ReadInputs()`, `ReadPin()`, `SetOutputs()`, `WriteOutputs()`, `ToggleOutputs()`,
+      `SetPolarityInversion()`, `SetDirection()`"
+    docs: [api-guide, hardware]
+  - topic: Output drive strength
+    doc: pcal9555a
+    section: 6.2.6 Output drive strength register pairs; 8.2 Output drive strength control
+    page: 9
+    driver: "`SetDriveStrength()`, `DriveStrength`, `DriveStrengthAll()`, `Config::drive_strength_codes`"
+    docs: [agile-io]
+  - topic: Input latch
+    doc: pcal9555a
+    section: 6.2.7 Input latch register pair
+    page: 9
+    driver: "`SetInputLatch()`, `Config::input_latch_mask`"
+    docs: [agile-io, troubleshooting]
+  - topic: Pull-up and pull-down resistors
+    doc: pcal9555a
+    section: 6.2.8 Pull-up/pull-down enable register pair; 6.2.9 Pull-up/pull-down selection register pair
+    page: 10
+    driver: "`SetPull()`, `Pull`, `Config::pull_enable_mask`, `pull_up_mask`"
+    docs: [agile-io, troubleshooting]
+  - topic: Interrupt mask
+    doc: pcal9555a
+    section: 6.2.10 Interrupt mask register pair
+    page: 11
+    driver: "`SetInterruptEnabled()`, `Config::interrupt_mask`"
+    docs: [agile-io, troubleshooting]
+  - topic: Interrupt status
+    doc: pcal9555a
+    section: 6.2.11 Interrupt status register pair
+    page: 12
+    driver: "`ReadInterruptStatus()`, `ReadInputs()` and `ReadPin()` (status read first while an input is unmasked)"
+    docs: [agile-io, api-guide, hardware]
+  - topic: Open-drain ports and the 0x4F write order
+    doc: pcal9555a
+    section: 6.2.12 Output port configuration register (4Fh)
+    page: 12
+    driver: "`SetOutputMode()`, `OutputMode`, `Bank`, `Config::port0_mode`, `port1_mode`, the reserved-bits check"
+    docs: [agile-io, configuration, troubleshooting]
+  - topic: Power-on reset
+    doc: pcal9555a
+    section: 6.4 Power-on reset; 8.3 Power-on reset requirements
+    page: 13
+    driver: >-
+      `CheckForReset()`, `Error::DeviceReset`, `detail::FindResetSentinel()`, the check in `SetDirection()`,
+      `ApplyConfig()` and the setters, `EnsureInitialized()` (writes every register again)
+    docs: [hardware, api-guide, limitations, troubleshooting]
+  - topic: Interrupt output (INT)
+    doc: pcal9555a
+    section: 6.5 Interrupt output
+    page: 14
+    driver: "`ReadInputs()`, `ReadPin()`, `GetLatchedInterrupts()`"
+    docs: [hardware, api-guide, troubleshooting]
+  - topic: Register pairs, pointer toggling and burst transfers
+    doc: pcal9555a
+    section: 7 Bus transactions; 7.1 Writing to the port registers; 7.2 Reading the port registers
+    page: 14
+    driver: >-
+      `Write()` and `WriteRead()` of the port, `kRepeatedStart`, every read and write (one pair per transfer),
+      `ReadRegister()`
+    docs: [hardware, porting, architecture]
+  - topic: Application circuit
+    doc: pcal9555a
+    section: 8 Application design-in information
+    page: 20
+    driver: "-"
+    docs: [hardware, quickstart]
+  - topic: Supply range and limiting values
+    doc: pcal9555a
+    section: 9 Limiting values; 10 Recommended operating conditions
+    page: 25
+    driver: "-"
+    docs: [hardware]
+  - topic: Pull resistor value, sink current and logic levels
+    doc: pcal9555a
+    section: 12 Static characteristics
+    page: 26
+    driver: "-"
+    docs: [hardware, agile-io]
+  - topic: I2C timing and INT timing
+    doc: pcal9555a
+    section: 13 Dynamic characteristics
+    page: 32
+    driver: "`kMaxClockHz` (f_SCL, table 33); no waits, so the port has no `DelayUs()`"
+    docs: [hardware, porting]
+
+  # PCA9555, Rev. 10
+  - topic: Pins and package
+    doc: pca9555
+    section: 5 Pinning information
+    page: 3
+    driver: "-"
+    docs: [hardware]
+  - topic: Address pins and the 7-bit address
+    doc: pca9555
+    section: 6.1 Device address
+    page: 6
+    driver: "`AddressFromPins()`, `kI2cAddress`"
+    docs: [hardware]
+  - topic: Registers, command bytes and power-up values
+    doc: pca9555
+    section: 6.2 Registers; 6.2.1 Command byte (Table 4)
+    page: 6
+    driver: "`Variant::Pca9555` (registers 0x00 to 0x07 only), `Config{}`"
+    docs: [hardware, agile-io, configuration]
+  - topic: Power-on reset
+    doc: pca9555
+    section: 6.3 Power-on reset
+    page: 8
+    driver: "`CheckForReset()`, `Error::DeviceReset`, the check in `SetDirection()`, `EnsureInitialized()`"
+    docs: [hardware, api-guide, limitations, troubleshooting]
+  - topic: Fixed weak pull-up on inputs
+    doc: pca9555
+    section: 6.4 I/O port
+    page: 8
+    driver: "- (`SetPull()` returns `Unsupported`)"
+    docs: [hardware]
+  - topic: Register pairs, pointer toggling and burst transfers
+    doc: pca9555
+    section: 6.5 Bus transactions; 6.5.1 Writing to the port registers; 6.5.2 Reading the port registers
+    page: 9
+    driver: "`Write()` and `WriteRead()` of the port, every read and write (one pair per transfer)"
+    docs: [hardware]
+  - topic: Interrupt output (INT), no mask or status
+    doc: pca9555
+    section: 6.5.3 Interrupt output
+    page: 14
+    driver: "`ReadInputs()`, `ReadPin()`"
+    docs: [hardware, api-guide]
+  - topic: Application circuit
+    doc: pca9555
+    section: 8 Application design-in information
+    page: 16
+    driver: "-"
+    docs: [hardware]
+  - topic: Supply range, sink current and logic levels
+    doc: pca9555
+    section: 10 Static characteristics
+    page: 18
+    driver: "-"
+    docs: [hardware]
+  - topic: I2C timing and INT timing
+    doc: pca9555
+    section: 11 Dynamic characteristics
+    page: 20
+    driver: "-"
+    docs: [hardware]
