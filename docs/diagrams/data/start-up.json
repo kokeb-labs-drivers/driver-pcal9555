@@ -1,0 +1,86 @@
+{
+  "validate_errors": [
+    "InvalidArgument",
+    "Unsupported"
+  ],
+  "address": [
+    "0x20",
+    "0x27"
+  ],
+  "address_error": "InvalidArgument",
+  "port_error": "Bus",
+  "presence": {
+    "input": [
+      "0x00",
+      "0x01"
+    ],
+    "oconf": "0x4F",
+    "reserved_bits": [
+      7,
+      2
+    ],
+    "errors": [
+      "Bus",
+      "NoDevice",
+      "DeviceIdMismatch"
+    ]
+  },
+  "write": {
+    "agile": [
+      [
+        "0x40",
+        "Drive strength"
+      ],
+      [
+        "0x42",
+        "Drive strength 2"
+      ],
+      [
+        "0x44",
+        "Input latch"
+      ],
+      [
+        "0x48",
+        "Pull-up/pull-down selection"
+      ],
+      [
+        "0x46",
+        "Pull-up/pull-down enable"
+      ],
+      [
+        "0x4A",
+        "Interrupt mask"
+      ]
+    ],
+    "oconf": "0x4F",
+    "standard": [
+      [
+        "0x02",
+        "Output port"
+      ],
+      [
+        "0x04",
+        "Polarity inversion"
+      ],
+      [
+        "0x06",
+        "Configuration"
+      ]
+    ],
+    "errors": [
+      "Bus",
+      "NoDevice"
+    ]
+  },
+  "verify_errors": [
+    "Bus",
+    "NoDevice",
+    "DeviceIdMismatch"
+  ],
+  "sources": [
+    "src/pcal9555.ipp:EnsureInitialized, initialize, checkPresence, writeAll, verifyAll",
+    "inc/pcal9555.hpp:StandardPairs, AgilePairs",
+    "inc/pcal9555_types.hpp:Validate, kMinI2cAddress, kMaxI2cAddress",
+    "inc/pcal9555_registers.hpp:register constants"
+  ]
+}

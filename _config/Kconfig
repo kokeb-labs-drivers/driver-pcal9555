@@ -1,0 +1,44 @@
+# Kconfig for the PCAL9555 driver. The root CMakeLists.txt registers it with ESP-IDF
+# (idf_component_register(... KCONFIG _config/Kconfig)), so `idf.py menuconfig` shows
+# "PCA9555 / PCAL9555A GPIO expander". The values reach the code only through
+# inc/pcal9555_kconfig.hpp; no public driver signature uses them.
+menuconfig PCAL9555
+    bool "PCA9555 / PCAL9555A GPIO expander"
+    default y
+    help
+      Defaults for pcal9555::KconfigDefaults(). The driver itself does not
+      need Kconfig; outside ESP-IDF the same defaults come from Config{}.
+
+if PCAL9555
+
+choice PCAL9555_VARIANT
+    prompt "Part fitted"
+    default PCAL9555_VARIANT_PCA9555
+    help
+      Config::variant. PCA9555 uses the registers both parts share, so it also
+      drives a PCAL9555A without its Agile I/O features.
+
+config PCAL9555_VARIANT_PCA9555
+    bool "PCA9555 (registers 0x00 to 0x07)"
+config PCAL9555_VARIANT_PCAL9555A
+    bool "PCAL9555A (with Agile I/O)"
+
+endchoice
+
+config PCAL9555_OUTPUT_HIGH_MASK
+    hex "Pins driven high (bit n = pin n)"
+    range 0x0 0xFFFF
+    default 0xFFFF
+    help
+      Config::output_high_mask, written before the directions. The power-up
+      value is 0xFFFF.
+
+config PCAL9555_INPUT_MASK
+    hex "Pins configured as inputs (bit n = pin n)"
+    range 0x0 0xFFFF
+    default 0xFFFF
+    help
+      Config::input_mask; the other pins become outputs. The power-up value
+      is 0xFFFF (every pin an input).
+
+endif

@@ -1,0 +1,21 @@
+{
+  "output_pair": [
+    "0x02",
+    "0x03"
+  ],
+  "verify_default": "None",
+  "checks": [
+    "NotInitialized",
+    "InvalidArgument"
+  ],
+  "setters": [],
+  "toggle_from_copy": true,
+  "readback": [
+    "ReadOutputLatch"
+  ],
+  "sources": [
+    "src/pcal9555.ipp:SetOutputs, writeMask, storeMask, writePairChecked, ReadOutputLatch",
+    "inc/pcal9555_types.hpp:Verify",
+    "inc/pcal9555_registers.hpp:kOutputPort0"
+  ]
+}

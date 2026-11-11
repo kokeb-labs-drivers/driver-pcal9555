@@ -1,0 +1,167 @@
+{
+  "rows": [
+    {
+      "reg": "kInputPort0",
+      "cmd": "0x00, 0x01",
+      "label": "Input port",
+      "access": "R",
+      "agile": false,
+      "power_up": null,
+      "field": "",
+      "calls": [
+        "ReadInputs",
+        "ReadPin"
+      ]
+    },
+    {
+      "reg": "kOutputPort0",
+      "cmd": "0x02, 0x03",
+      "label": "Output port",
+      "access": "R/W",
+      "agile": false,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::output_high_mask",
+      "calls": [
+        "SetDirection",
+        "SetOutputs",
+        "WriteOutputs",
+        "ToggleOutputs",
+        "ReadOutputLatch"
+      ]
+    },
+    {
+      "reg": "kPolarityPort0",
+      "cmd": "0x04, 0x05",
+      "label": "Polarity inversion",
+      "access": "R/W",
+      "agile": false,
+      "power_up": "0x00, 0x00",
+      "field": "Config::polarity_invert_mask",
+      "calls": [
+        "SetPolarityInversion",
+        "ReadPolarityInversion"
+      ]
+    },
+    {
+      "reg": "kConfigPort0",
+      "cmd": "0x06, 0x07",
+      "label": "Configuration",
+      "access": "R/W",
+      "agile": false,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::input_mask",
+      "calls": [
+        "Deinitialize",
+        "SetDirection",
+        "ReadInputMask"
+      ]
+    },
+    {
+      "reg": "kDriveStrength0",
+      "cmd": "0x40, 0x41",
+      "label": "Output drive strength, pins 0 to 7",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::drive_strength_codes bits 15..0",
+      "calls": [
+        "SetDriveStrength"
+      ]
+    },
+    {
+      "reg": "kDriveStrength2",
+      "cmd": "0x42, 0x43",
+      "label": "Output drive strength, pins 8 to 15",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::drive_strength_codes bits 31..16",
+      "calls": [
+        "SetDriveStrength"
+      ]
+    },
+    {
+      "reg": "kInputLatch0",
+      "cmd": "0x44, 0x45",
+      "label": "Input latch",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0x00, 0x00",
+      "field": "Config::input_latch_mask",
+      "calls": [
+        "SetInputLatch"
+      ]
+    },
+    {
+      "reg": "kPullEnable0",
+      "cmd": "0x46, 0x47",
+      "label": "Pull-up/pull-down enable",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::pull_enable_mask",
+      "calls": [
+        "SetPull"
+      ]
+    },
+    {
+      "reg": "kPullSelect0",
+      "cmd": "0x48, 0x49",
+      "label": "Pull-up/pull-down selection",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::pull_up_mask",
+      "calls": [
+        "SetPull"
+      ]
+    },
+    {
+      "reg": "kInterruptMask0",
+      "cmd": "0x4A, 0x4B",
+      "label": "Interrupt mask",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0xFF, 0xFF",
+      "field": "Config::interrupt_mask",
+      "calls": [
+        "SetInterruptEnabled"
+      ]
+    },
+    {
+      "reg": "kInterruptStatus0",
+      "cmd": "0x4C, 0x4D",
+      "label": "Interrupt status",
+      "access": "R",
+      "agile": true,
+      "power_up": null,
+      "field": "",
+      "calls": [
+        "ReadInputs",
+        "ReadPin",
+        "ReadInterruptStatus"
+      ]
+    },
+    {
+      "reg": "kOutputPortConfig",
+      "cmd": "0x4F",
+      "label": "Output port configuration",
+      "access": "R/W",
+      "agile": true,
+      "power_up": "0x00",
+      "field": "Config::port0_mode (ODEN0, bit 0)\nConfig::port1_mode (ODEN1, bit 1)\nbits 7..2 reserved",
+      "calls": [
+        "SetDirection",
+        "SetOutputMode"
+      ]
+    }
+  ],
+  "unused": [
+    "0x4E"
+  ],
+  "sources": [
+    "inc/pcal9555_registers.hpp:register constants",
+    "inc/pcal9555.hpp:StandardPairs, AgilePairs, OutputPortConfig",
+    "src/pcal9555.ipp:calls"
+  ]
+}

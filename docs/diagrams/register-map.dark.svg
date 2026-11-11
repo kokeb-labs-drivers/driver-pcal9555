@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1123" viewBox="0 0 1200 1123" role="img" aria-labelledby="register-map-title register-map-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="register-map-title">The register map</title>
+<desc id="register-map-desc">Register map: the four standard register pairs at 0x00 to 0x07 on both parts and the Agile I/O registers at 0x40 to 0x4F on the PCAL9555A only, each with its power-up value, its Config field and the calls that use it.</desc>
+<rect x="0.5" y="0.5" width="1199" height="1122" rx="16" fill="#0E131A" stroke="#283241"/>
+<text x="32" y="44" font-size="12.5" font-weight="700" letter-spacing="1.2" fill="#F8D27A">HARDWARE</text>
+<text x="32" y="77.3" font-size="26" font-weight="700" fill="#E8EDF3">The register map</text>
+<text x="32" y="103.8" font-size="15" fill="#9AA6B5">Registers come in pairs: port 0 at the even command byte, port 1 at the odd one. EnsureInitialized() and ApplyConfig() write every Config field shown.</text>
+<rect x="32" y="119.8" width="1136" height="1" fill="#252F3C"/>
+<rect x="32" y="137.8" width="1136" height="300" rx="14" fill="#13233A" stroke="#2B4C78" stroke-width="1.2"/>
+<rect x="32" y="461.8" width="1136" height="600" rx="14" fill="#221A3A" stroke="#4B3A82" stroke-width="1.2"/>
+<rect x="48" y="178.8" width="544" height="123" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="608" y="178.8" width="544" height="123" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="186.8" width="4" height="107" rx="2" fill="#60A5FA"/>
+<rect x="48" y="317.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="48" y="325.8" width="4" height="88" rx="2" fill="#60A5FA"/>
+<rect x="608" y="317.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="325.8" width="4" height="88" rx="2" fill="#60A5FA"/>
+<rect x="48" y="502.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="48" y="510.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="608" y="502.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="510.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="48" y="622.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="48" y="630.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="608" y="622.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="630.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="48" y="742.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="48" y="750.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="608" y="742.8" width="544" height="104" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="750.8" width="4" height="88" rx="2" fill="#A78BFA"/>
+<rect x="48" y="862.8" width="544" height="141" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="608" y="862.8" width="544" height="141" rx="10" fill="#151C26" stroke="#3A4657" stroke-width="1"/>
+<rect x="608" y="870.8" width="4" height="125" rx="2" fill="#A78BFA"/>
+<text x="48" y="162.8" font-size="13" font-weight="700" fill="#BFDBFE">STANDARD BANK</text>
+<text x="181.3" y="162.8" font-size="12" fill="#BFDBFE">0x00 to 0x07, both parts</text>
+<text x="68" y="205.6" font-size="15" font-weight="700" fill="#E8EDF3">0x00, 0x01  Input port</text>
+<text x="68" y="222.8" font-size="12" fill="#9AA6B5">Pin levels; read only, the driver never writes it</text>
+<text x="68" y="245.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">ReadInputs()  ReadPin()</text>
+<rect x="558" y="188.8" width="24" height="21.5" rx="10.8" fill="#13233A" stroke="#2B4C78" stroke-width="1"/>
+<text x="566" y="203.2" font-size="11.5" font-weight="700" fill="#BFDBFE">R</text>
+<text x="628" y="205.6" font-size="15" font-weight="700" fill="#E8EDF3">0x02, 0x03  Output port</text>
+<text x="628" y="222.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="628" y="245.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::output_high_mask</text>
+<text x="628" y="264" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetDirection()  SetOutputs()  WriteOutputs()  ToggleOutputs() </text>
+<text x="628" y="282.1" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">ReadOutputLatch()</text>
+<rect x="1100.6" y="188.8" width="41.4" height="21.5" rx="10.8" fill="#13233A" stroke="#2B4C78" stroke-width="1"/>
+<text x="1108.6" y="203.2" font-size="11.5" font-weight="700" fill="#BFDBFE">R/W</text>
+<text x="68" y="344.6" font-size="15" font-weight="700" fill="#E8EDF3">0x04, 0x05  Polarity inversion</text>
+<text x="68" y="361.8" font-size="12" fill="#9AA6B5">Power-up 0x00, 0x00</text>
+<text x="68" y="384.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::polarity_invert_mask</text>
+<text x="68" y="403" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetPolarityInversion()  ReadPolarityInversion()</text>
+<rect x="540.6" y="327.8" width="41.4" height="21.5" rx="10.8" fill="#13233A" stroke="#2B4C78" stroke-width="1"/>
+<text x="548.6" y="342.2" font-size="11.5" font-weight="700" fill="#BFDBFE">R/W</text>
+<text x="628" y="344.6" font-size="15" font-weight="700" fill="#E8EDF3">0x06, 0x07  Configuration</text>
+<text x="628" y="361.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="628" y="384.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::input_mask</text>
+<text x="628" y="403" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Deinitialize()  SetDirection()  ReadInputMask()</text>
+<rect x="1100.6" y="327.8" width="41.4" height="21.5" rx="10.8" fill="#13233A" stroke="#2B4C78" stroke-width="1"/>
+<text x="1108.6" y="342.2" font-size="11.5" font-weight="700" fill="#BFDBFE">R/W</text>
+<text x="48" y="486.8" font-size="13" font-weight="700" fill="#DDD6FE">AGILE I/O BANK</text>
+<text x="166.8" y="486.8" font-size="12" fill="#DDD6FE">0x40 to 0x4F, PCAL9555A only; on Variant::Pca9555 these calls return Unsupported</text>
+<text x="68" y="529.5" font-size="15" font-weight="700" fill="#E8EDF3">0x40, 0x41  Output drive strength, pins 0 to 7</text>
+<text x="68" y="546.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="68" y="569.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::drive_strength_codes bits 15..0</text>
+<text x="68" y="588" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetDriveStrength()</text>
+<rect x="540.6" y="512.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="548.6" y="527.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="628" y="529.5" font-size="15" font-weight="700" fill="#E8EDF3">0x42, 0x43  Output drive strength, pins 8 to 15</text>
+<text x="628" y="546.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="628" y="569.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::drive_strength_codes bits 31..16</text>
+<text x="628" y="588" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetDriveStrength()</text>
+<rect x="1100.6" y="512.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="1108.6" y="527.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="68" y="649.5" font-size="15" font-weight="700" fill="#E8EDF3">0x44, 0x45  Input latch</text>
+<text x="68" y="666.8" font-size="12" fill="#9AA6B5">Power-up 0x00, 0x00</text>
+<text x="68" y="689.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::input_latch_mask</text>
+<text x="68" y="708" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetInputLatch()</text>
+<rect x="540.6" y="632.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="548.6" y="647.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="628" y="649.5" font-size="15" font-weight="700" fill="#E8EDF3">0x46, 0x47  Pull-up/pull-down enable</text>
+<text x="628" y="666.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="628" y="689.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::pull_enable_mask</text>
+<text x="628" y="708" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetPull()</text>
+<rect x="1100.6" y="632.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="1108.6" y="647.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="68" y="769.5" font-size="15" font-weight="700" fill="#E8EDF3">0x48, 0x49  Pull-up/pull-down selection</text>
+<text x="68" y="786.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="68" y="809.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::pull_up_mask</text>
+<text x="68" y="828" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetPull()</text>
+<rect x="540.6" y="752.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="548.6" y="767.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="628" y="769.5" font-size="15" font-weight="700" fill="#E8EDF3">0x4A, 0x4B  Interrupt mask</text>
+<text x="628" y="786.8" font-size="12" fill="#9AA6B5">Power-up 0xFF, 0xFF</text>
+<text x="628" y="809.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::interrupt_mask</text>
+<text x="628" y="828" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetInterruptEnabled()</text>
+<rect x="1100.6" y="752.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="1108.6" y="767.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="68" y="889.5" font-size="15" font-weight="700" fill="#E8EDF3">0x4C, 0x4D  Interrupt status</text>
+<text x="68" y="906.8" font-size="12" fill="#9AA6B5">Read only, the driver never writes it</text>
+<text x="68" y="929.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">ReadInputs()  ReadPin()  ReadInterruptStatus()</text>
+<rect x="558" y="872.8" width="24" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="566" y="887.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R</text>
+<text x="628" y="889.5" font-size="15" font-weight="700" fill="#E8EDF3">0x4F  Output port configuration</text>
+<text x="628" y="906.8" font-size="12" fill="#9AA6B5">Power-up 0x00</text>
+<text x="628" y="929.9" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::port0_mode (ODEN0, bit 0)</text>
+<text x="628" y="948" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">Config::port1_mode (ODEN1, bit 1)</text>
+<text x="628" y="966.1" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">bits 7..2 reserved</text>
+<text x="628" y="984.2" font-size="12.5" font-family="'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace" fill="#D2DAE4">SetDirection()  SetOutputMode()</text>
+<rect x="1100.6" y="872.8" width="41.4" height="21.5" rx="10.8" fill="#221A3A" stroke="#4B3A82" stroke-width="1"/>
+<text x="1108.6" y="887.2" font-size="11.5" font-weight="700" fill="#DDD6FE">R/W</text>
+<text x="48" y="1035.8" font-size="12" fill="#DDD6FE">0x4E is not used.</text>
+<rect x="32" y="1077.2" width="14" height="14" rx="4" fill="#13233A" stroke="#60A5FA" stroke-width="1.4"/>
+<text x="54" y="1088.8" font-size="12.5" fill="#9AA6B5">PCA9555 and PCAL9555A</text>
+<rect x="243.6" y="1077.2" width="14" height="14" rx="4" fill="#221A3A" stroke="#A78BFA" stroke-width="1.4"/>
+<text x="265.6" y="1088.8" font-size="12.5" fill="#9AA6B5">PCAL9555A only</text>
+</svg>

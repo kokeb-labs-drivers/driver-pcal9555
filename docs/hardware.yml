@@ -1,0 +1,138 @@
+---
+# The chip's hardware in one file: package, pins, the driver hook of each pin, the blocks inside, and the reference
+# circuit. `kokeb-docs figures` draws the pinout, the block diagram and the circuit from it, `kokeb-docs gen` writes
+# the pin and parts tables on docs/hardware.md, `kokeb-docs hardware --check` validates it and
+# `kokeb-docs hardware --kicad-netlist OUT --circuit typical` exports the circuit for a schematic or PCB tool.
+# Schema: docs/chip-diagrams.md in kokeb-labs/ci-tools.
+#
+# Every fact cites the PCAL9555A data sheet (Rev. 2); the documents are listed in docs/datasheets.yml. The PCA9555
+# has the same TSSOP24 pins and address. Pin numbers are the TSSOP24 ones (Table 3 also gives the HWQFN24 numbers).
+schema: 1
+chip: PCAL9555A
+
+refs:
+  blocks: {doc: pcal9555a, section: "4 Block diagram", page: 3}
+  pinout: {doc: pcal9555a, section: "5 Pinning information", page: 4}
+  address: {doc: pcal9555a, section: "6.1 Device address", page: 5}
+  ports: {doc: pcal9555a, page: 7,
+          section: "6.2.2 to 6.2.5 Input port, Output port, Polarity inversion and Configuration"}
+  por: {doc: pcal9555a, section: "6.4 Power-on reset", page: 13}
+  int: {doc: pcal9555a, section: "6.5 Interrupt output", page: 14}
+  app: {doc: pcal9555a, section: "8 Application design-in information", page: 20}
+  supply: {doc: pcal9555a, section: "10 Recommended operating conditions", page: 25}
+  static: {doc: pcal9555a, section: "12 Static characteristics", page: 27}
+  dynamic: {doc: pcal9555a, section: "13 Dynamic characteristics", page: 32}
+
+package:
+  type: TSSOP-24
+  pins: 24
+  ref: pinout
+
+hooks:
+  - {id: i2c, call: "Write() / WriteRead()", kind: i2c, source: inc/pcal9555_i2c_interface.hpp, symbol: WriteRead}
+
+pins:
+  - {number: 1, name: INT, type: open-drain, domain: VDD,
+     function: "Interrupt output, active low; pull-up to VDD, to an MCU input", unused: Leave open, ref: int}
+  - {number: 2, name: A1, type: digital-in, domain: VDD, function: "Address input 1; connect directly to VDD or VSS",
+     unused: Never open, ref: address}
+  - {number: 3, name: A2, type: digital-in, domain: VDD, function: "Address input 2; connect directly to VDD or VSS",
+     unused: Never open, ref: address}
+  - {number: 4, name: P0_0, type: digital-io, domain: VDD, function: "Port 0 bit 0, driver pin 0", unused: Input,
+     ref: ports}
+  - {number: 5, name: P0_1, type: digital-io, domain: VDD, function: "Port 0 bit 1, driver pin 1", unused: Input,
+     ref: ports}
+  - {number: 6, name: P0_2, type: digital-io, domain: VDD, function: "Port 0 bit 2, driver pin 2", unused: Input,
+     ref: ports}
+  - {number: 7, name: P0_3, type: digital-io, domain: VDD, function: "Port 0 bit 3, driver pin 3", unused: Input,
+     ref: ports}
+  - {number: 8, name: P0_4, type: digital-io, domain: VDD, function: "Port 0 bit 4, driver pin 4", unused: Input,
+     ref: ports}
+  - {number: 9, name: P0_5, type: digital-io, domain: VDD, function: "Port 0 bit 5, driver pin 5", unused: Input,
+     ref: ports}
+  - {number: 10, name: P0_6, type: digital-io, domain: VDD, function: "Port 0 bit 6, driver pin 6", unused: Input,
+     ref: ports}
+  - {number: 11, name: P0_7, type: digital-io, domain: VDD, function: "Port 0 bit 7, driver pin 7", unused: Input,
+     ref: ports}
+  - {number: 12, name: VSS, type: ground, domain: VSS, function: Ground, ref: pinout}
+  - {number: 13, name: P1_0, type: digital-io, domain: VDD, function: "Port 1 bit 0, driver pin 8", unused: Input,
+     ref: ports}
+  - {number: 14, name: P1_1, type: digital-io, domain: VDD, function: "Port 1 bit 1, driver pin 9", unused: Input,
+     ref: ports}
+  - {number: 15, name: P1_2, type: digital-io, domain: VDD, function: "Port 1 bit 2, driver pin 10", unused: Input,
+     ref: ports}
+  - {number: 16, name: P1_3, type: digital-io, domain: VDD, function: "Port 1 bit 3, driver pin 11", unused: Input,
+     ref: ports}
+  - {number: 17, name: P1_4, type: digital-io, domain: VDD, function: "Port 1 bit 4, driver pin 12", unused: Input,
+     ref: ports}
+  - {number: 18, name: P1_5, type: digital-io, domain: VDD, function: "Port 1 bit 5, driver pin 13", unused: Input,
+     ref: ports}
+  - {number: 19, name: P1_6, type: digital-io, domain: VDD, function: "Port 1 bit 6, driver pin 14", unused: Input,
+     ref: ports}
+  - {number: 20, name: P1_7, type: digital-io, domain: VDD, function: "Port 1 bit 7, driver pin 15", unused: Input,
+     ref: ports}
+  - {number: 21, name: A0, type: digital-in, domain: VDD, function: "Address input 0; connect directly to VDD or VSS",
+     unused: Never open, ref: address}
+  - {number: 22, name: SCL, type: bus, domain: VDD, function: "I2C clock, up to 400 kHz; pull-up to VDD", hook: i2c,
+     ref: dynamic}
+  - {number: 23, name: SDA, type: bus, domain: VDD, function: "I2C data; pull-up to VDD", hook: i2c, ref: pinout}
+  - {number: 24, name: VDD, type: power, domain: VDD, function: "Supply, 1.65 V to 5.5 V; sets the I2C and I/O levels",
+     ref: supply}
+
+block_diagram:
+  ref: blocks
+  blocks:
+    - {id: filter, label: Input filter, detail: "SCL and SDA", at: [0, 0], tone: blue, pins: [SCL, SDA]}
+    - {id: i2c, label: I2C-bus control, detail: "SMBus; address 0100 A2 A1 A0", at: [0, 1], tone: blue,
+       pins: [A0, A1, A2], side: left}
+    - {id: p1, label: Port 1, detail: "8-bit input/output", at: [1, 0], tone: violet, side: right,
+       pins: [P1_0, P1_1, P1_2, P1_3, P1_4, P1_5, P1_6, P1_7], ref: ports}
+    - {id: p0, label: Port 0, detail: "8-bit input/output", at: [1, 1], tone: violet, side: right,
+       pins: [P0_0, P0_1, P0_2, P0_3, P0_4, P0_5, P0_6, P0_7], ref: ports}
+    - {id: por, label: Power-on reset, detail: "all I/Os inputs at reset", at: [0, 2], tone: slate,
+       pins: [VDD, VSS], ref: por}
+    - {id: lp, label: LP filter, detail: "INT, open drain", at: [1, 2], tone: amber, side: right, pins: [INT],
+       ref: int}
+  links:
+    - {from: filter, to: i2c, label: "SCL, SDA", both: true}
+    - {from: i2c, to: p1, label: "8-bit, write and read pulse", both: true}
+    - {from: i2c, to: p0, label: "8-bit, write and read pulse", both: true}
+    - {from: por, to: i2c, label: reset}
+    - {from: p0, to: lp, label: input change}
+
+circuits:
+  - id: typical
+    title: Typical application
+    description: >-
+      The expander on an MCU's I2C bus at address 0x20 (A2, A1 and A0 tied to VSS), with 10 kΩ pull-ups on SCL, SDA
+      and INT to the 3.3 V supply and an LED with its 2 kΩ resistor from VDD sunk by P0_0, as in the data sheet's
+      typical application. The other port pins stay inputs.
+    ref: app
+    parts:
+      - {id: U1, kind: chip}
+      - id: U2
+        kind: mcu
+        label: MCU
+        pins:
+          - {name: SCL, label: I2C SCL}
+          - {name: SDA, label: I2C SDA}
+          - {name: IRQ, label: GPIO (IRQ)}
+          - VDD
+          - GND
+      - {id: R1, kind: resistor, value: 10 kΩ, ref: app}
+      - {id: R2, kind: resistor, value: 10 kΩ, ref: app}
+      - {id: R3, kind: resistor, value: 10 kΩ, ref: app}
+      - {id: C1, kind: capacitor, value: 100 nF,
+         unverified: "the data sheet shows no decoupling capacitor; 100 nF at VDD is common practice"}
+      - {id: R4, kind: resistor, value: 2 kΩ, ref: app}
+      - {id: D1, kind: led, ref: app}
+    nets:
+      - {name: "+3V3", kind: supply, nodes: [U1.VDD, U2.VDD, C1.1, R1.1, R2.1, R3.1, R4.1]}
+      - {name: GND, kind: ground, nodes: [U1.VSS, U1.A0, U1.A1, U1.A2, U2.GND, C1.2]}
+      - {name: SCL, nodes: [U1.SCL, U2.SCL, R2.2]}
+      - {name: SDA, nodes: [U1.SDA, U2.SDA, R3.2]}
+      - {name: INT, nodes: [U1.INT, U2.IRQ, R1.2]}
+      - {name: LED_A, nodes: [R4.2, D1.A]}
+      - {name: P0_0, nodes: [U1.P0_0, D1.K]}
+    unused: [U1.P0_1, U1.P0_2, U1.P0_3, U1.P0_4, U1.P0_5, U1.P0_6, U1.P0_7, U1.P1_0, U1.P1_1, U1.P1_2, U1.P1_3,
+             U1.P1_4, U1.P1_5, U1.P1_6, U1.P1_7]

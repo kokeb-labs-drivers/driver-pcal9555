@@ -1,0 +1,38 @@
+{
+  "name": "pcal9555",
+  "cls": "PCAL9555",
+  "calls": [
+    "EnsureInitialized",
+    "Deinitialize",
+    "ApplyConfig",
+    "CheckForReset",
+    "SetDirection",
+    "SetOutputs",
+    "WriteOutputs",
+    "ToggleOutputs",
+    "SetPolarityInversion",
+    "ReadInputs",
+    "ReadPin",
+    "SetDriveStrength",
+    "SetPull",
+    "SetInputLatch",
+    "SetInterruptEnabled",
+    "ReadInterruptStatus",
+    "SetOutputMode",
+    "ReadOutputLatch",
+    "ReadInputMask",
+    "ReadPolarityInversion",
+    "ReadRegister"
+  ],
+  "sources": [
+    "inc/pcal9555.hpp:public calls",
+    "inc/pcal9555_i2c_interface.hpp:I2cInterface"
+  ],
+  "bus": "I2C",
+  "base": "I2cInterface",
+  "hooks": [
+    "EnsureInitialized",
+    "Write",
+    "WriteRead"
+  ]
+}
