@@ -1283,7 +1283,7 @@ that is connected to VSS.</p>
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The PCAL9555A seen from the top, in its TSSOP-24 package. Pin 1 is marked by the dot; the numbers run counter-clockwise from it. Each pad is coloured by the pin's electrical type (legend below). Next to it is the pin's name and, in mono, the hook of the driver's port that drives or reads it; a pin without a hook is not used by the driver.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-pins -->
 <p>TSSOP-24, 24 pins (5 Pinning information, <a href="https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=4">p. 4</a>).</p>
@@ -1537,7 +1537,7 @@ to each port; an input change on either port drives INT through a low-pass filte
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>The PCAL9555A's function blocks inside its outline. Arrows between blocks carry signals or data in the direction they point (both ways where they have two heads). The package pins stand on the left and right edges with their numbers, each wired to the block it reaches.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
 </details>
 <h2 id="typical-application">Typical application<a class="headerlink" href="#typical-application" title="Permanent link">&para;</a></h2>
 <p>Figure 13 of the data sheet, reduced to the bus, the interrupt and one output: 10 kΩ pull-ups on SCL, SDA and INT,
@@ -1551,7 +1551,7 @@ expander share the 3.3 V supply, which sets the I2C logic levels (<a href="#powe
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>A schematic. The MCU is on the left, each of its pins level with the chip pin it connects to; above each wire is the hook of the driver's port that drives or reads it. Supply pins point up to their supply and decoupling, ground pins down. Pins on the right carry the loads and the pins tied to a supply or ground; a cross marks a pin left open. A dot is a junction; wires that cross without a dot are not connected.</p>
-<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
+<p>Drawn from: <a href="../hardware.yml"><code>docs/hardware.yml</code></a>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a>.</p>
 </details>
 <!-- generated: chip-parts -->
 <table>
@@ -1634,7 +1634,7 @@ bit n of a 16-bit pair: port 0 in the even register (bits 7..0), port 1 in the o
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>One card per register pair, in command-byte order; port 0 is the even byte, port 1 the odd one. The top band is the standard bank, 0x00 to 0x07, on both the PCA9555 and the PCAL9555A; the lower band is the Agile I/O bank, 0x40 to 0x4F, which only the PCAL9555A has. Each card gives the access (R or R/W), the power-up value of each register, the Config field the driver keeps for it, and the calls that read or write it. EnsureInitialized() and ApplyConfig() write every Config field shown. The input ports and the interrupt status are read only, so they have no Config field. Addresses come from the constants in inc/pcal9555_registers.hpp, fields from the pair lists in inc/pcal9555.hpp and calls from src/pcal9555.ipp.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> <code>register constants</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>StandardPairs, AgilePairs, OutputPortConfig</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a> <code>calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/docs/diagrams/figures/register-map.py"><code>docs/diagrams/figures/register-map.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> <code>register constants</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>StandardPairs, AgilePairs, OutputPortConfig</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a> <code>calls</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/docs/diagrams/figures/register-map.py"><code>docs/diagrams/figures/register-map.py</code></a>.</p>
 </details>
 <table>
 <thead>
@@ -1727,7 +1727,7 @@ bit n of a 16-bit pair: port 0 in the even register (bits 7..0), port 1 in the o
 </tbody>
 </table>
 <p>Reading an output port register returns the output latch, not the pin. The input port registers reflect the pin
-whether it is an input or an output. <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> has the map as
+whether it is an input or an output. <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> has the map as
 the driver uses it.</p>
 <h2 id="bus-transactions">Bus transactions<a class="headerlink" href="#bus-transactions" title="Permanent link">&para;</a></h2>
 <p>Section 7. After the address byte the master sends a command byte, which sets the pointer. Each data byte then
@@ -2005,7 +2005,7 @@ of the driver is in the datasheet: <a href="../datasheet/">Datasheet map</a>.</p
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/864e3e0af4a6e55f1ee35c64a9414748bfa91d4c/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/672c3a5908c1cb3d5b41ed0aedb9e5ed11bf30b4/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
 <td>The register map as the driver uses it, with data sheet section numbers</td>
 </tr>
 </tbody>
