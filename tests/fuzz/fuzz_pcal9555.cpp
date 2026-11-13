@@ -26,6 +26,10 @@
  * - `DeviceReset` leaves the driver uninitialised; `CheckForReset()` sends at most one read, plus
  *   one per register whose last write failed (ten registers in all).
  *
+ * `PCAL9555_FUZZ_MUTANT_UNCOUNTED_TRANSFERS` is the one-edit mutant the build runs to prove the
+ * transfer check can fail (tests/fuzz/CMakeLists.txt): the port stops counting transfers, so a call
+ * that failed with `NoDevice` looks as if it sent nothing, and the target must abort.
+ *
  * Built two ways (tests/fuzz/CMakeLists.txt): with libFuzzer (Clang,
  * `-DPCAL9555_BUILD_FUZZERS=ON`), and as a plain executable that replays the corpus in
  * tests/fuzz/corpus/ as a CTest.
@@ -85,7 +89,9 @@ public:
 
   bool Write(uint8_t addr, const uint8_t* data, std::size_t len) noexcept {
     Check(data != nullptr && len >= 1 && len <= 3 && addr >= 0x20 && addr <= 0x27);
+#ifndef PCAL9555_FUZZ_MUTANT_UNCOUNTED_TRANSFERS
     transfers_++;
+#endif
     const uint8_t action = in_.Byte();
     if (failed(action)) {
       return false; // nothing stored
@@ -121,7 +127,9 @@ public:
                  std::size_t rx_len) noexcept {
     Check(tx != nullptr && rx != nullptr && tx_len == 1 && rx_len >= 1 && rx_len <= 2 &&
           addr >= 0x20 && addr <= 0x27);
+#ifndef PCAL9555_FUZZ_MUTANT_UNCOUNTED_TRANSFERS
     transfers_++;
+#endif
     const uint8_t action = in_.Byte();
     if (failed(action)) {
       return false;
@@ -217,7 +225,8 @@ pcal9555::Config FuzzConfig(Input& in) noexcept {
     c.pull_up_mask = in.Word();
     c.interrupt_mask = in.Word();
     c.input_latch_mask = in.Word();
-    c.drive_strength_codes = static_cast<uint32_t>(in.Word()) << 16U | in.Word();
+    const uint32_t high = in.Word(); // two reads of the input in one expression would be unordered
+    c.drive_strength_codes = (high << 16U) | in.Word();
   }
   return c;
 }
@@ -389,15 +398,21 @@ void RunOne(Driver& d, FuzzPort& port, Input& in) noexcept {
     CheckCommon(d, r, was_up, sent());
     break;
   }
-  case 16:
-    CheckReadBack(d, port, d.ReadOutputLatch(), was_up, sent(), reg::kOutputPort0);
+  case 16: {
+    const auto r = d.ReadOutputLatch();
+    CheckReadBack(d, port, r, was_up, sent(), reg::kOutputPort0);
     break;
-  case 17:
-    CheckReadBack(d, port, d.ReadInputMask(), was_up, sent(), reg::kConfigPort0);
+  }
+  case 17: {
+    const auto r = d.ReadInputMask();
+    CheckReadBack(d, port, r, was_up, sent(), reg::kConfigPort0);
     break;
-  case 18:
-    CheckReadBack(d, port, d.ReadPolarityInversion(), was_up, sent(), reg::kPolarityPort0);
+  }
+  case 18: {
+    const auto r = d.ReadPolarityInversion();
+    CheckReadBack(d, port, r, was_up, sent(), reg::kPolarityPort0);
     break;
+  }
   case 19: {
     // Raw access: one transfer for an implemented command byte, none otherwise.
     const uint8_t command = in.Byte();
@@ -444,7 +459,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, std::size_t size) {
         Pcal9555Model::Part::Pca9555; // the part fitted may not be the one configured
     port.Chip().PowerOn();
   }
-  Driver driver(port, static_cast<uint8_t>(0x20U + (in.Byte() % 9U)), FuzzConfig(in)); // 0x28: bad
+  const auto address = static_cast<uint8_t>(0x20U + (in.Byte() % 9U)); // 0x28: bad
+  Driver driver(port, address, FuzzConfig(in));
   for (int calls = 0; calls < 64 && !in.Empty(); ++calls) {
     RunOne(driver, port, in);
   }
