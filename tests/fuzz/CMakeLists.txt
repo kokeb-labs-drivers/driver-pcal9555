@@ -21,6 +21,21 @@ foreach(src ${PCAL9555_FUZZ_TARGETS})
   add_test(NAME pcal9555_${name}_corpus
     COMMAND fuzz_replay_${name} ${CMAKE_CURRENT_SOURCE_DIR}/corpus/${name})
 
+  if(name STREQUAL "fuzz_pcal9555")
+    # (Not named fuzz_*: the fuzz job runs every fuzz_* executable it finds as a libFuzzer target.)
+    # The same target with one edit (the port stops counting transfers). Its corpus run must abort,
+    # which proves the promise "NoDevice follows at least one transfer" is checked under every
+    # compiler, whatever order it evaluates the arguments of a call in.
+    add_executable(mutant_replay_${name} ${src} replay_main.cpp)
+    pcal9555_test_target(mutant_replay_${name})
+    target_include_directories(mutant_replay_${name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
+    target_compile_definitions(mutant_replay_${name} PRIVATE PCAL9555_FUZZ_MUTANT_UNCOUNTED_TRANSFERS)
+    add_test(NAME pcal9555_${name}_mutant_uncounted_transfers
+      COMMAND ${CMAKE_COMMAND} -DEXE=$<TARGET_FILE:mutant_replay_${name}>
+        -DCORPUS=${CMAKE_CURRENT_SOURCE_DIR}/corpus/${name}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/expect_broken_promise.cmake)
+  endif()
+
   if(PCAL9555_BUILD_FUZZERS)
     add_executable(${name} ${src})
     pcal9555_test_target(${name})
