@@ -225,7 +225,8 @@ pcal9555::Config FuzzConfig(Input& in) noexcept {
     c.pull_up_mask = in.Word();
     c.interrupt_mask = in.Word();
     c.input_latch_mask = in.Word();
-    c.drive_strength_codes = static_cast<uint32_t>(in.Word()) << 16U | in.Word();
+    const uint32_t high = in.Word(); // two reads of the input in one expression would be unordered
+    c.drive_strength_codes = (high << 16U) | in.Word();
   }
   return c;
 }
@@ -458,7 +459,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, std::size_t size) {
         Pcal9555Model::Part::Pca9555; // the part fitted may not be the one configured
     port.Chip().PowerOn();
   }
-  Driver driver(port, static_cast<uint8_t>(0x20U + (in.Byte() % 9U)), FuzzConfig(in)); // 0x28: bad
+  const auto address = static_cast<uint8_t>(0x20U + (in.Byte() % 9U)); // 0x28: bad
+  Driver driver(port, address, FuzzConfig(in));
   for (int calls = 0; calls < 64 && !in.Empty(); ++calls) {
     RunOne(driver, port, in);
   }
