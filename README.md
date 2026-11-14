@@ -1,5 +1,11 @@
 # PCAL9555 Driver
 
+<!-- generated: chip-summary -->
+The **PCAL9555A** is a 16-bit I/O expander that adds sixteen inputs or outputs on an I2C bus, with an interrupt line for
+input changes and, as the Agile I/O of the PCAL9555A, pull resistors, input latches and drive strength per pin (1
+General description, [p. 1](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=1)).
+<!-- /generated -->
+
 C++20 driver for the NXP PCA9555 and PCAL9555A 16-bit I2C GPIO expanders.
 
 [![CI](https://github.com/kokeb-labs-drivers/driver-pcal9555/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kokeb-labs-drivers/driver-pcal9555/actions/workflows/ci.yml)
@@ -10,33 +16,203 @@ C++20 driver for the NXP PCA9555 and PCAL9555A 16-bit I2C GPIO expanders.
 under [`api/`](https://kokeb-labs-drivers.github.io/driver-pcal9555/latest/api/). The same pages are readable here
 in [`docs/`](docs/index.md).
 
-The PCA9555 and PCAL9555A give your MCU 16 more pins over two I2C wires: each pin is an input or an output, and an
-interrupt line tells you when an input changes. This driver sets the pins, reads them and finds the source of an
-interrupt, and on the PCAL9555A also sets the drive strength, the pull resistors, the input latches and open-drain
-ports. It runs on any MCU: you give it a small class that moves bytes on your I2C bus, and it does the rest.
-
-<!-- figure: driver-layers -->
+<!-- figure: chip-hero -->
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/driver-layers.dark.svg">
-  <img src="docs/diagrams/driver-layers.svg"
-    alt="Layer diagram: your application calls the PCAL9555 core, which sends register reads and writes
-    through the I2C port contract to the port class you write, which drives the chip; the core and the
-    contract are the same on every MCU.">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/chip-hero.dark.svg">
+  <img src="docs/diagrams/chip-hero.svg"
+    alt="Overview of the PCAL9555A, a 16-bit I/O expander that adds sixteen inputs or outputs on an I2C bus,
+    with an interrupt line for input changes and, as the Agile I/O of the PCAL9555A, pull resistors,
+    input latches and drive strength per pin. A MCU talks to it over I2C; it drives LEDs and loads; it
+    reads back Buttons and switches. Headline figures: 16 I/O pins in two 8-bit ports; 1.65 to 5.5 V
+    supply; 5 V tolerant I/O; 400 kHz I2C, Fast-mode; 25 mA output sink, enough for an LED; 8 chips on
+    one bus, address 0x20 to 0x27; 1.0 µA standby, typical at 3.3 V.">
 </picture>
 <!-- /figure -->
 
-## At a glance
+## What it does
+
+<!-- figure: chip-capabilities -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/chip-capabilities.dark.svg">
+  <img src="docs/diagrams/chip-capabilities.svg"
+    alt="Capability map of the PCAL9555A: Pin direction (supported): Makes each of the 16 pins an input or an
+    output; every pin is an input after power-on; Outputs (supported): Sets, writes or toggles latched
+    outputs that sink up to 25 mA, enough to light an LED; Inputs and polarity (supported): Reads the
+    level of every pin, each one optionally inverted; Interrupt (supported): Pulls the open-drain INT
+    low on an input change; the PCAL9555A adds a mask and the source per pin; Pull-up and pull-down
+    (supported): Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor;
+    Input latch (supported): Keeps a short input change until the input port is read, so a pulse is not
+    missed; Output drive strength (supported): Sets one of four output current levels per pin, to tune
+    the edge rate and the switching noise; Open-drain outputs (supported): Switches each 8-pin port
+    between push-pull and open-drain outputs; Address and reset (supported): Finds the chip at one of
+    eight addresses and notices a power-on reset mid-session.">
+</picture>
+<!-- /figure -->
+
+## Where it is used
+
+<!-- generated: chip-uses -->
+- Power switches
+- Sensors
+- Push buttons
+- LEDs
+- Fan control
+
+Uses named by the datasheet (1 General description, [p. 1](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=1)).
+<!-- /generated -->
+
+## Inside the chip
+
+<!-- figure: chip-blocks -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/chip-blocks.dark.svg">
+  <img src="docs/diagrams/chip-blocks.svg"
+    alt="Block diagram of the PCAL9555A: its function blocks, how they connect and which package pins reach
+    each block.">
+</picture>
+<!-- /figure -->
+
+## Pins and wiring
+
+<!-- figure: chip-pinout -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/chip-pinout.dark.svg">
+  <img src="docs/diagrams/chip-pinout.svg"
+    alt="Pinout of the PCAL9555A in TSSOP-24, top view: 24 pins, each with its name, its electrical type as a
+    colour and the driver hook that uses it.">
+</picture>
+<!-- /figure -->
+
+<!-- figure: chip-wiring-typical -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/chip-wiring-typical.dark.svg">
+  <img src="docs/diagrams/chip-wiring-typical.svg"
+    alt="Wiring of the PCAL9555A for the Typical application: MCU I2C SCL to SCL (Write() / WriteRead()); MCU
+    I2C SDA to SDA (Write() / WriteRead()); MCU GPIO (IRQ) to INT. Supplies, grounds and the support
+    parts are listed under the drawing.">
+</picture>
+<!-- /figure -->
+
+| MCU | PCA9555 / PCAL9555A |
+| --- | --- |
+| I2C SCL, SDA | SCL (pin 22), SDA (pin 23), each with a pull-up to VDD (4.7 kΩ suits 100 kHz and 400 kHz) |
+| GND | A0 (pin 21), A1 (pin 2), A2 (pin 3): address `0x20`; never leave them open |
+| 3.3 V | VDD (pin 24), 100 nF to GND |
+| GND | VSS (pin 12) |
+| An input, optional | INT (pin 1), open-drain: pull-up to VDD |
+
+For the example below, P0_0 (pin 4) drives an LED to ground and P1_0 (pin 13) reads a button to ground.
+
+<!-- generated: chip-card -->
+| | | Datasheet |
+| --- | --- | --- |
+| **Package** | TSSOP-24 | 5, [p. 4](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=4) |
+| **Pins** | 24 | 5, [p. 4](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=4) |
+| **Supply VDD** | 1.65 V to 5.5 V | 10, [p. 25](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=25) |
+
+From [`docs/hardware.yml`](docs/hardware.yml); pins, circuits and the block diagram: [Hardware](docs/hardware.md).
+<!-- /generated -->
+
+## Quick start
+
+**1. Wire it** as in [Pins and wiring](#pins-and-wiring).
+
+**2. Write the port**: a class with `EnsureInitialized()` (bring the bus up), `Write()` and `WriteRead()` (one I2C
+transaction each), about 20 lines on most SDKs. [Porting](docs/porting.md) has the contract and a complete example.
+
+**3. Blink and read:**
+
+<!-- generated: quickstart-code -->
+```cpp
+#include "pcal9555.hpp"
+
+int blink_and_read(MyPort& port, bool& button_pressed) {
+  pcal9555::PCAL9555<MyPort> io(port, 0x20); // A2..A0 low; no I/O yet
+
+  if (auto r = io.EnsureInitialized(); !r) { // 1. bus up, presence, Config{} written, checked
+    return static_cast<int>(r.error); //    Bus: nothing at 0x20; DeviceIdMismatch: another part
+  }
+  const uint16_t led = pcal9555::PinMask(0);   // P0_0 drives an LED to ground
+  if (auto r = io.SetOutputs(led, true); !r) { // 2. level first, then direction: no glitch
+    return static_cast<int>(r.error);
+  }
+  if (auto r = io.SetDirection(led, pcal9555::Direction::Output); !r) {
+    return static_cast<int>(r.error);
+  }
+
+  const auto button = io.ReadPin(8); // 3. P1_0: a button to ground, pulled up externally
+  if (!button) {
+    return static_cast<int>(button.error);
+  }
+  button_pressed = !button.value;
+  return 0;
+}
+```
+<!-- /generated -->
+
+`EnsureInitialized()` is the only call that starts the chip. Every other call returns `Error::NotInitialized`
+until it has succeeded, and no call ever starts the chip on its own, so a call is always just its own transfers.
+
+## Driver coverage
+
+<!-- generated: chip-coverage -->
+| Capability | What the chip does | Driver API | Registers | Status | Datasheet |
+| --- | --- | --- | --- | --- | --- |
+| [Pin direction](docs/api-guide.md) | Makes each of the 16 pins an input or an output; every pin is an input after power-on | `SetDirection`, `Direction` | `Configuration 0` | Supported | 6.2.5, [p. 8](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=8) |
+| [Outputs](docs/api-guide.md) | Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED | `SetOutputs`, `WriteOutputs`, `ToggleOutputs`, `ReadOutputLatch` | `Output port 0` | Supported | 6.2.3, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
+| [Inputs and polarity](docs/api-guide.md) | Reads the level of every pin, each one optionally inverted | `ReadInputs`, `ReadPin`, `SetPolarityInversion` | `Input port 0`, `Polarity inversion 0` | Supported | 6.2.2, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
+| [Interrupt](docs/api-guide.md) | Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin | `SetInterruptEnabled`, `ReadInterruptStatus`, `GetLatchedInterrupts` | `Input port 0`, `Interrupt mask 0`, `Interrupt status 0` | Supported | 6.5, [p. 14](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=14) |
+| [Pull-up and pull-down](docs/agile-io.md) | Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor (PCAL9555A) | `SetPull`, `Pull` | `Pull-up/pull-down enable 0`, `Pull-up/pull-down selection 0` | Supported | 6.2.8, [p. 10](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=10) |
+| [Input latch](docs/agile-io.md) | Keeps a short input change until the input port is read, so a pulse is not missed (PCAL9555A) | `SetInputLatch` | `Input latch 0` | Supported | 6.2.7, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
+| [Output drive strength](docs/agile-io.md) | Sets one of four output current levels per pin, to tune the edge rate and the switching noise (PCAL9555A) | `SetDriveStrength`, `DriveStrength` | `Drive strength 0`, `Drive strength 2` | Supported | 6.2.6, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
+| [Open-drain outputs](docs/agile-io.md) | Switches each 8-pin port between push-pull and open-drain outputs (PCAL9555A) | `SetOutputMode`, `OutputMode`, `Bank` | `Output port configuration` | Supported | 6.2.12, [p. 12](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=12) |
+| [Address and reset](docs/contract.md) | Finds the chip at one of eight addresses and notices a power-on reset mid-session | `EnsureInitialized`, `CheckForReset`, `GetAddress` | - | Supported | 6.1, [p. 5](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=5) |
+
+**Supported**: the driver covers it and a host test checks it.
+
+From [`docs/hardware.yml`](docs/hardware.yml); `kokeb-docs hardware --check` confirms that every API name is in
+`inc/pcal9555.hpp`, `inc/pcal9555_types.hpp` and every register in `inc/pcal9555_registers.hpp`.
+<!-- /generated -->
+
+This driver sets the pins, reads them and finds the source of an interrupt, and on the PCAL9555A also sets the drive
+strength, the pull resistors, the input latches and open-drain ports. It runs on any MCU: you give it a small class that
+moves bytes on your I2C bus, and it does the rest.
 
 | | |
 | --- | --- |
 | **Chips** | NXP PCA9555 (2.3 V to 5.5 V) and PCAL9555A (1.65 V to 5.5 V), pin compatible, 5.5 V tolerant I/O |
-| **Pins** | 16 I/O in two 8-pin ports; each an input (with optional polarity inversion) or a latched output |
 | **Bus** | I2C up to 400 kHz; 7-bit address `0x20` to `0x27` from the A2, A1 and A0 pins, eight chips per bus |
-| **Interrupt** | Open-drain INT on an input change, released by reading the input port |
-| **Agile I/O** | PCAL9555A only: four drive strengths, pull-up or pull-down per pin, input latch, interrupt mask and status, open-drain per port |
 | **Driver** | Header-only C++20; no heap, exceptions, RTTI or virtual calls; every call returns `Result<T>` |
 | **Runs on** | Any MCU with I2C and a C++20 compiler; examples for ESP32 (ESP-IDF) and the host |
 | **Status** | 0.1.0, not yet verified on hardware: host-tested against a protocol model of both chips ([limitations](docs/limitations.md)) |
+
+- Drives the PCA9555 and the PCAL9555A: `Config::variant` names the part, and the PCAL9555A's Agile I/O calls
+  (drive strength, pull-up/pull-down, input latch, interrupt mask and status, open-drain ports) return
+  `Unsupported` on a PCA9555 without touching the bus.
+- Starts the chip in `EnsureInitialized()`: a presence check, then every register written and read back as the
+  identity check (the parts have no ID register and no reset).
+- Changes pins by mask from a copy of the registers, one write per call and nothing more. Pass
+  `Verify::ReadBack` to a call to read its write back: a write the chip acknowledged but lost then returns
+  `WriteMismatch` instead of passing silently. `ReadOutputLatch()` reads what the chip really drives.
+  At start-up it writes the output levels before the directions, so that no pin glitches.
+- Takes a `Config` whose defaults are the power-up values of every register, checked by a `constexpr` `Validate()`.
+- Never waits: the chips have no conversion or reset time, so every call is a fixed number of transfers.
+
+## Documentation
+
+| Page | Read it when you want to |
+| --- | --- |
+| [Quickstart](docs/quickstart.md) | Go from a bare chip to a blinking LED and a button on your MCU |
+| [Hardware](docs/hardware.md) | Wire it, choose the address, understand the registers, bus transfers, interrupt and power |
+| [Porting](docs/porting.md) | Write the port class for your MCU's SDK |
+| [API guide](docs/api-guide.md) | Use each call: start, drive outputs, read inputs, handle an interrupt, recover, handle errors |
+| [Agile I/O](docs/agile-io.md) | Use the PCAL9555A's drive strength, pull resistors, input latch, interrupt mask and open-drain ports |
+| [Configuration](docs/configuration.md) | Choose every register value at start-up, or change it at run time |
+| [Troubleshooting](docs/troubleshooting.md) | Find the cause of an error, a pin that does not change or an interrupt that misbehaves |
+| [Contract](docs/contract.md) | Know exactly what the driver promises, needs and returns |
+| [Status and limitations](docs/limitations.md) | Decide whether it is ready for your use: what is and is not verified |
+| [Datasheet map](docs/datasheet.md) | Find the data sheet section behind each part of the driver |
+| [API reference](docs/api-reference.md) | Look up a class or member (Doxygen; built by CI and locally) |
 
 ## Datasheet
 
@@ -81,70 +257,6 @@ need git, CMake 3.16+ and a C++20 compiler (GCC 10+, Clang 13+ or MSVC 2022).
 
 To run the whole test suite instead: `cmake -S . -B build -DPCAL9555_BUILD_TESTS=ON && cmake --build build && ctest
 --test-dir build`.
-
-## Use it on your MCU
-
-**1. Wire it** (TSSOP24 pin numbers, the same on both parts; [Hardware](docs/hardware.md) for the full pin list):
-
-| MCU | PCA9555 / PCAL9555A |
-| --- | --- |
-| I2C SCL, SDA | SCL (pin 22), SDA (pin 23), each with a pull-up to VDD (4.7 kΩ suits 100 kHz and 400 kHz) |
-| GND | A0 (pin 21), A1 (pin 2), A2 (pin 3): address `0x20`; never leave them open |
-| 3.3 V | VDD (pin 24), 100 nF to GND |
-| GND | VSS (pin 12) |
-| An input, optional | INT (pin 1), open-drain: pull-up to VDD |
-
-For the example below, P0_0 (pin 4) drives an LED to ground and P1_0 (pin 13) reads a button to ground.
-
-**2. Write the port**: a class with `EnsureInitialized()` (bring the bus up), `Write()` and `WriteRead()` (one I2C
-transaction each), about 20 lines on most SDKs. [Porting](docs/porting.md) has the contract and a complete example.
-
-**3. Blink and read:**
-
-<!-- generated: quickstart-code -->
-```cpp
-#include "pcal9555.hpp"
-
-int blink_and_read(MyPort& port, bool& button_pressed) {
-  pcal9555::PCAL9555<MyPort> io(port, 0x20); // A2..A0 low; no I/O yet
-
-  if (auto r = io.EnsureInitialized(); !r) { // 1. bus up, presence, Config{} written, checked
-    return static_cast<int>(r.error); //    Bus: nothing at 0x20; DeviceIdMismatch: another part
-  }
-  const uint16_t led = pcal9555::PinMask(0);   // P0_0 drives an LED to ground
-  if (auto r = io.SetOutputs(led, true); !r) { // 2. level first, then direction: no glitch
-    return static_cast<int>(r.error);
-  }
-  if (auto r = io.SetDirection(led, pcal9555::Direction::Output); !r) {
-    return static_cast<int>(r.error);
-  }
-
-  const auto button = io.ReadPin(8); // 3. P1_0: a button to ground, pulled up externally
-  if (!button) {
-    return static_cast<int>(button.error);
-  }
-  button_pressed = !button.value;
-  return 0;
-}
-```
-<!-- /generated -->
-
-`EnsureInitialized()` is the only call that starts the chip. Every other call returns `Error::NotInitialized`
-until it has succeeded, and no call ever starts the chip on its own, so a call is always just its own transfers.
-
-## What it does
-
-- Drives the PCA9555 and the PCAL9555A: `Config::variant` names the part, and the PCAL9555A's Agile I/O calls
-  (drive strength, pull-up/pull-down, input latch, interrupt mask and status, open-drain ports) return
-  `Unsupported` on a PCA9555 without touching the bus.
-- Starts the chip in `EnsureInitialized()`: a presence check, then every register written and read back as the
-  identity check (the parts have no ID register and no reset).
-- Changes pins by mask from a copy of the registers, one write per call and nothing more. Pass
-  `Verify::ReadBack` to a call to read its write back: a write the chip acknowledged but lost then returns
-  `WriteMismatch` instead of passing silently. `ReadOutputLatch()` reads what the chip really drives.
-  At start-up it writes the output levels before the directions, so that no pin glitches.
-- Takes a `Config` whose defaults are the power-up values of every register, checked by a `constexpr` `Validate()`.
-- Never waits: the chips have no conversion or reset time, so every call is a fixed number of transfers.
 
 ## Add it to your project
 
@@ -202,22 +314,6 @@ Pick the row that matches your build; each is a few steps, and [Installation](do
    ```
 
 The target is `pcal9555::pcal9555` every way, so switching later changes nothing else.
-
-## Documentation
-
-| Page | Read it when you want to |
-| --- | --- |
-| [Quickstart](docs/quickstart.md) | Go from a bare chip to a blinking LED and a button on your MCU |
-| [Hardware](docs/hardware.md) | Wire it, choose the address, understand the registers, bus transfers, interrupt and power |
-| [Porting](docs/porting.md) | Write the port class for your MCU's SDK |
-| [API guide](docs/api-guide.md) | Use each call: start, drive outputs, read inputs, handle an interrupt, recover, handle errors |
-| [Agile I/O](docs/agile-io.md) | Use the PCAL9555A's drive strength, pull resistors, input latch, interrupt mask and open-drain ports |
-| [Configuration](docs/configuration.md) | Choose every register value at start-up, or change it at run time |
-| [Troubleshooting](docs/troubleshooting.md) | Find the cause of an error, a pin that does not change or an interrupt that misbehaves |
-| [Contract](docs/contract.md) | Know exactly what the driver promises, needs and returns |
-| [Status and limitations](docs/limitations.md) | Decide whether it is ready for your use: what is and is not verified |
-| [Datasheet map](docs/datasheet.md) | Find the data sheet section behind each part of the driver |
-| [API reference](docs/api-reference.md) | Look up a class or member (Doxygen; built by CI and locally) |
 
 ## Tests and quality
 

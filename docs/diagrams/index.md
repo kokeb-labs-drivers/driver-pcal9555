@@ -24,6 +24,33 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
 
+## What the PCAL9555A does
+
+<!-- figure: chip-capabilities -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-capabilities.dark.svg">
+  <img src="chip-capabilities.svg"
+    alt="Capability map of the PCAL9555A: Pin direction (supported): Makes each of the 16 pins an input or an
+    output; every pin is an input after power-on; Outputs (supported): Sets, writes or toggles latched
+    outputs that sink up to 25 mA, enough to light an LED; Inputs and polarity (supported): Reads the
+    level of every pin, each one optionally inverted; Interrupt (supported): Pulls the open-drain INT
+    low on an input change; the PCAL9555A adds a mask and the source per pin; Pull-up and pull-down
+    (supported): Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor;
+    Input latch (supported): Keeps a short input change until the input port is read, so a pulse is not
+    missed; Output drive strength (supported): Sets one of four output current levels per pin, to tune
+    the edge rate and the switching noise; Open-drain outputs (supported): Switches each 8-pin port
+    between push-pull and open-drain outputs; Address and reset (supported): Finds the chip at one of
+    eight addresses and notices a power-on reset mid-session.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
+
 ## PCAL9555A: Typical application
 
 <!-- figure: chip-circuit-typical -->
@@ -43,6 +70,28 @@ Drawn from:
 - [`docs/hardware.yml`](../hardware.yml)
 - [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
 
+## PCAL9555A
+
+<!-- figure: chip-hero -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-hero.dark.svg">
+  <img src="chip-hero.svg"
+    alt="Overview of the PCAL9555A, a 16-bit I/O expander that adds sixteen inputs or outputs on an I2C bus,
+    with an interrupt line for input changes and, as the Agile I/O of the PCAL9555A, pull resistors,
+    input latches and drive strength per pin. A MCU talks to it over I2C; it drives LEDs and loads; it
+    reads back Buttons and switches. Headline figures: 16 I/O pins in two 8-bit ports; 1.65 to 5.5 V
+    supply; 5 V tolerant I/O; 400 kHz I2C, Fast-mode; 25 mA output sink, enough for an LED; 8 chips on
+    one bus, address 0x20 to 0x27; 1.0 µA standby, typical at 3.3 V.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
+
 ## PCAL9555A pinout, TSSOP-24
 
 <!-- figure: chip-pinout -->
@@ -51,6 +100,25 @@ Drawn from:
   <img src="chip-pinout.svg"
     alt="Pinout of the PCAL9555A in TSSOP-24, top view: 24 pins, each with its name, its electrical type as a
     colour and the driver hook that uses it.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/hardware.yml`](../hardware.yml)
+
+Drawn from:
+
+- [`docs/hardware.yml`](../hardware.yml)
+- [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
+
+## Wiring: Typical application
+
+<!-- figure: chip-wiring-typical -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="chip-wiring-typical.dark.svg">
+  <img src="chip-wiring-typical.svg"
+    alt="Wiring of the PCAL9555A for the Typical application: MCU I2C SCL to SCL (Write() / WriteRead()); MCU
+    I2C SDA to SDA (Write() / WriteRead()); MCU GPIO (IRQ) to INT. Supplies, grounds and the support
+    parts are listed under the drawing.">
 </picture>
 <!-- /figure -->
 

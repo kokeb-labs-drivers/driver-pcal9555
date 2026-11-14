@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1011" viewBox="0 0 1200 1011" role="img" aria-labelledby="chip-capabilities-title chip-capabilities-desc" font-family="Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="chip-capabilities-title">What the PCAL9555A does</title>
+<desc id="chip-capabilities-desc">Capability map of the PCAL9555A: Pin direction (supported): Makes each of the 16 pins an input or an output; every pin is an input after power-on; Outputs (supported): Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED; Inputs and polarity (supported): Reads the level of every pin, each one optionally inverted; Interrupt (supported): Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin; Pull-up and pull-down (supported): Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor; Input latch (supported): Keeps a short input change until the input port is read, so a pulse is not missed; Output drive strength (supported): Sets one of four output current levels per pin, to tune the edge rate and the switching noise; Open-drain outputs (supported): Switches each 8-pin port between push-pull and open-drain outputs; Address and reset (supported): Finds the chip at one of eight addresses and notices a power-on reset mid-session.</desc>
+<rect x="0.5" y="0.5" width="1199" height="1010" rx="16" fill="#FFFFFF" stroke="#E2E7EE"/>
+<text x="32" y="46.8" font-size="16" font-weight="700" letter-spacing="1.2" fill="#7A360E">CAPABILITIES</text>
+<text x="32" y="85.6" font-size="32" font-weight="700" fill="#0E1726">What the PCAL9555A does</text>
+<text x="32" y="115.4" font-size="18" fill="#566070">One card per function of the chip, with how this driver covers it and the registers behind it.</text>
+<rect x="32" y="131.4" width="1136" height="1" fill="#E2E7EE"/>
+<rect x="32" y="149.4" width="365.3" height="225.3" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="417.3" y="149.4" width="365.3" height="225.3" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="802.7" y="149.4" width="365.3" height="225.3" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="394.7" width="365.3" height="283.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="417.3" y="394.7" width="365.3" height="283.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="802.7" y="394.7" width="365.3" height="283.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="32" y="698.6" width="365.3" height="249.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="417.3" y="698.6" width="365.3" height="249.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<rect x="802.7" y="698.6" width="365.3" height="249.9" rx="12" fill="#FFFFFF" stroke="#C9D1DB" stroke-width="1"/>
+<circle cx="78" cy="195.4" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M65 188.2 L88.1 188.2" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M84.5 184.5 L88.1 188.2 L84.5 191.8" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M67.9 195.4 L91 195.4" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M87.4 191.8 L91 195.4 L87.4 199" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M65 202.6 L88.1 202.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M84.5 199 L88.1 202.6 L84.5 206.2" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="120" y="201.4" font-size="20" font-weight="700" fill="#0E1726">Pin direction</text>
+<text x="50" y="249.8" font-size="17" fill="#2B3442">Makes each of the 16 pins an input or</text>
+<text x="50" y="274.5" font-size="17" fill="#2B3442">an output; every pin is an input after</text>
+<text x="50" y="299.1" font-size="17" fill="#2B3442">power-on</text>
+<rect x="50" y="317.7" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="58" y="335.8" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="161.4" y="317.7" width="146.1" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="169.4" y="335.8" font-size="16" font-weight="700" fill="#334155">Configuration 0</text>
+<circle cx="463.3" cy="195.4" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<circle cx="463.3" cy="192.5" r="8.7" fill="none" stroke="#9A4A17" stroke-width="2.5"/>
+<path d="M459.7 203.4 L466.9 203.4" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M461.2 207.7 L465.5 207.7" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="505.3" y="201.4" font-size="20" font-weight="700" fill="#0E1726">Outputs</text>
+<text x="435.3" y="249.8" font-size="17" fill="#2B3442">Sets, writes or toggles latched outputs</text>
+<text x="435.3" y="274.5" font-size="17" fill="#2B3442">that sink up to 25 mA, enough to light</text>
+<text x="435.3" y="299.1" font-size="17" fill="#2B3442">an LED</text>
+<rect x="435.3" y="317.7" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="443.3" y="335.8" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="546.7" y="317.7" width="127" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="554.7" y="335.8" font-size="16" font-weight="700" fill="#334155">Output port 0</text>
+<circle cx="848.7" cy="195.4" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M834.2 199.7 L841.4 199.7" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="841.4" cy="199.7" r="2.3" fill="#9A4A17"/>
+<path d="M841.4 199.7 L854.5 189.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="855.9" cy="199.7" r="2.3" fill="#9A4A17"/>
+<path d="M855.9 199.7 L863.1 199.7" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="890.7" y="201.4" font-size="20" font-weight="700" fill="#0E1726">Inputs and polarity</text>
+<text x="820.7" y="249.8" font-size="17" fill="#2B3442">Reads the level of every pin, each one</text>
+<text x="820.7" y="274.5" font-size="17" fill="#2B3442">optionally inverted</text>
+<rect x="820.7" y="293" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="828.7" y="311.2" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="932" y="293" width="112.5" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="940" y="311.2" font-size="16" font-weight="700" fill="#334155">Input port 0</text>
+<rect x="820.7" y="327" width="176.6" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="828.7" y="345.2" font-size="16" font-weight="700" fill="#334155">Polarity inversion 0</text>
+<circle cx="78" cy="440.7" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M78 428.4 L91.7 452.3 L64.3 452.3 Z" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M78 437.1 L78 443.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="78" cy="447.9" r="2" fill="#9A4A17"/>
+<text x="120" y="446.7" font-size="20" font-weight="700" fill="#0E1726">Interrupt</text>
+<text x="50" y="495.1" font-size="17" fill="#2B3442">Pulls the open-drain INT low on an</text>
+<text x="50" y="519.8" font-size="17" fill="#2B3442">input change; the PCAL9555A adds a</text>
+<text x="50" y="544.4" font-size="17" fill="#2B3442">mask and the source per pin</text>
+<rect x="50" y="563" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="58" y="581.1" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="161.4" y="563" width="112.5" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="169.4" y="581.1" font-size="16" font-weight="700" fill="#334155">Input port 0</text>
+<rect x="50" y="597" width="153" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="58" y="615.1" font-size="16" font-weight="700" fill="#334155">Interrupt mask 0</text>
+<rect x="211" y="597" width="160.2" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="219" y="615.1" font-size="16" font-weight="700" fill="#334155">Interrupt status 0</text>
+<circle cx="463.3" cy="440.7" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M451.8 433.5 L474.9 433.5" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="459" cy="433.5" r="3.2" fill="none" stroke="#9A4A17" stroke-width="2.5"/>
+<path d="M451.8 440.7 L474.9 440.7" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="467.7" cy="440.7" r="3.2" fill="none" stroke="#9A4A17" stroke-width="2.5"/>
+<path d="M451.8 447.9 L474.9 447.9" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="456.8" cy="447.9" r="3.2" fill="none" stroke="#9A4A17" stroke-width="2.5"/>
+<text x="505.3" y="446.7" font-size="20" font-weight="700" fill="#0E1726">Pull-up and pull-down</text>
+<text x="435.3" y="495.1" font-size="17" fill="#2B3442">Enables a 100 kΩ pull-up or pull-down</text>
+<text x="435.3" y="519.8" font-size="17" fill="#2B3442">per pin, so a button needs no external</text>
+<text x="435.3" y="544.4" font-size="17" fill="#2B3442">resistor</text>
+<rect x="435.3" y="563" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="443.3" y="581.1" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="435.3" y="597" width="242.3" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="443.3" y="615.1" font-size="16" font-weight="700" fill="#334155">Pull-up/pull-down enable 0</text>
+<rect x="435.3" y="631" width="262.5" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="443.3" y="649.1" font-size="16" font-weight="700" fill="#334155">Pull-up/pull-down selection 0</text>
+<circle cx="848.7" cy="440.7" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M840 439.3 L857.3 439.3 L857.3 452.3 L840 452.3 Z" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M843.6 439.3 L843.6 434.9" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M843.6 434.9 A5.1 5.1 0 0 1 853.7 434.9" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M853.7 434.9 L853.7 439.3" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="848.7" cy="445.8" r="2.2" fill="#9A4A17"/>
+<text x="890.7" y="446.7" font-size="20" font-weight="700" fill="#0E1726">Input latch</text>
+<text x="820.7" y="495.1" font-size="17" fill="#2B3442">Keeps a short input change until the</text>
+<text x="820.7" y="519.8" font-size="17" fill="#2B3442">input port is read, so a pulse is not</text>
+<text x="820.7" y="544.4" font-size="17" fill="#2B3442">missed</text>
+<rect x="820.7" y="563" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="828.7" y="581.1" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="932" y="563" width="119.4" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="940" y="581.1" font-size="16" font-weight="700" fill="#334155">Input latch 0</text>
+<circle cx="78" cy="744.6" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M65 744.6 L91 744.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M65 744.6 L66.1 742.4 L67.2 740.3 L68.2 738.5 L69.3 737.1 L70.4 736.3 L71.5 736 L72.6 736.3 L73.7 737.1 L74.7 738.5 L75.8 740.3 L76.9 742.4 L78 744.6 L79.1 746.9 L80.2 749 L81.3 750.8 L82.3 752.2 L83.4 753 L84.5 753.3 L85.6 753 L86.7 752.2 L87.8 750.8 L88.8 749 L89.9 746.9 L91 744.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="120" y="750.6" font-size="20" font-weight="700" fill="#0E1726">Output drive strength</text>
+<text x="50" y="799.1" font-size="17" fill="#2B3442">Sets one of four output current levels</text>
+<text x="50" y="823.8" font-size="17" fill="#2B3442">per pin, to tune the edge rate and the</text>
+<text x="50" y="848.4" font-size="17" fill="#2B3442">switching noise</text>
+<rect x="50" y="866.9" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="58" y="885.1" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="161.4" y="866.9" width="150.3" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="169.4" y="885.1" font-size="16" font-weight="700" fill="#334155">Drive strength 0</text>
+<rect x="50" y="900.9" width="149.5" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="58" y="919.1" font-size="16" font-weight="700" fill="#334155">Drive strength 2</text>
+<circle cx="463.3" cy="744.6" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M450.3 744.6 L459 744.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M459 736 L459 753.3" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M463.3 736 L463.3 753.3" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M463.3 738.9 L474.9 738.9 L474.9 731.6" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M463.3 750.4 L474.9 750.4 L474.9 757.7" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="505.3" y="750.6" font-size="20" font-weight="700" fill="#0E1726">Open-drain outputs</text>
+<text x="435.3" y="799.1" font-size="17" fill="#2B3442">Switches each 8-pin port between</text>
+<text x="435.3" y="823.8" font-size="17" fill="#2B3442">push-pull and open-drain outputs</text>
+<rect x="435.3" y="842.3" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="443.3" y="860.4" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="435.3" y="876.3" width="227.6" height="26" rx="13" fill="#F1F4F8" stroke="#CBD5E1" stroke-width="1"/>
+<text x="443.3" y="894.4" font-size="16" font-weight="700" fill="#334155">Output port configuration</text>
+<circle cx="848.7" cy="744.6" r="28" fill="#FBEFE6" stroke="#E9C3A6" stroke-width="1.2"/>
+<path d="M837.1 733.1 L848.7 733.1 L860.2 744.6 L848.7 756.2 L837.1 744.6 Z" fill="none" stroke="#9A4A17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="843.6" cy="739.6" r="2.3" fill="#9A4A17"/>
+<text x="890.7" y="750.6" font-size="20" font-weight="700" fill="#0E1726">Address and reset</text>
+<text x="820.7" y="799.1" font-size="17" fill="#2B3442">Finds the chip at one of eight</text>
+<text x="820.7" y="823.8" font-size="17" fill="#2B3442">addresses and notices a power-on</text>
+<text x="820.7" y="848.4" font-size="17" fill="#2B3442">reset mid-session</text>
+<rect x="820.7" y="866.9" width="103.4" height="26" rx="13" fill="#14532D"/>
+<text x="828.7" y="885.1" font-size="16" font-weight="700" fill="#FFFFFF">Supported</text>
+<rect x="32" y="961" width="14" height="14" rx="4" fill="#EAF7EF" stroke="#15803D" stroke-width="1.4"/>
+<text x="54" y="975.6" font-size="16" fill="#566070">Supported: the driver covers it and a host test checks it</text>
+</svg>
