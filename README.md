@@ -58,7 +58,8 @@ in [`docs/`](docs/index.md).
 - LEDs
 - Fan control
 
-Uses named by the datasheet (1 General description, [p. 1](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=1)).
+Uses named by the datasheet (1 General description, [p.
+1](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=1)).
 <!-- /generated -->
 
 ## Inside the chip
@@ -95,11 +96,11 @@ Uses named by the datasheet (1 General description, [p. 1](https://www.nxp.com/d
 
 | MCU | PCA9555 / PCAL9555A |
 | --- | --- |
-| I2C SCL, SDA | SCL (pin 22), SDA (pin 23), each with a pull-up to VDD (4.7 kΩ suits 100 kHz and 400 kHz) |
+| I2C SCL, SDA | SCL (pin 22), SDA (pin 23), each with a 10 kΩ pull-up to VDD, as in the datasheet's application diagram (Figure 13); a long or loaded bus at 400 kHz may need less |
 | GND | A0 (pin 21), A1 (pin 2), A2 (pin 3): address `0x20`; never leave them open |
 | 3.3 V | VDD (pin 24), 100 nF to GND |
 | GND | VSS (pin 12) |
-| An input, optional | INT (pin 1), open-drain: pull-up to VDD |
+| An input, optional | INT (pin 1), open-drain: 10 kΩ pull-up to VDD (Figure 13) |
 
 For the example below, P0_0 (pin 4) drives an LED to ground and P1_0 (pin 13) reads a button to ground.
 
@@ -158,20 +159,21 @@ until it has succeeded, and no call ever starts the chip on its own, so a call i
 <!-- generated: chip-coverage -->
 | Capability | What the chip does | Driver API | Registers | Status | Datasheet |
 | --- | --- | --- | --- | --- | --- |
-| [Pin direction](docs/api-guide.md) | Makes each of the 16 pins an input or an output; every pin is an input after power-on | `SetDirection`, `Direction` | `Configuration 0` | Supported | 6.2.5, [p. 8](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=8) |
-| [Outputs](docs/api-guide.md) | Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED | `SetOutputs`, `WriteOutputs`, `ToggleOutputs`, `ReadOutputLatch` | `Output port 0` | Supported | 6.2.3, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
-| [Inputs and polarity](docs/api-guide.md) | Reads the level of every pin, each one optionally inverted | `ReadInputs`, `ReadPin`, `SetPolarityInversion` | `Input port 0`, `Polarity inversion 0` | Supported | 6.2.2, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
-| [Interrupt](docs/api-guide.md) | Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin | `SetInterruptEnabled`, `ReadInterruptStatus`, `GetLatchedInterrupts` | `Input port 0`, `Interrupt mask 0`, `Interrupt status 0` | Supported | 6.5, [p. 14](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=14) |
-| [Pull-up and pull-down](docs/agile-io.md) | Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor (PCAL9555A) | `SetPull`, `Pull` | `Pull-up/pull-down enable 0`, `Pull-up/pull-down selection 0` | Supported | 6.2.8, [p. 10](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=10) |
-| [Input latch](docs/agile-io.md) | Keeps a short input change until the input port is read, so a pulse is not missed (PCAL9555A) | `SetInputLatch` | `Input latch 0` | Supported | 6.2.7, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
-| [Output drive strength](docs/agile-io.md) | Sets one of four output current levels per pin, to tune the edge rate and the switching noise (PCAL9555A) | `SetDriveStrength`, `DriveStrength` | `Drive strength 0`, `Drive strength 2` | Supported | 6.2.6, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
-| [Open-drain outputs](docs/agile-io.md) | Switches each 8-pin port between push-pull and open-drain outputs (PCAL9555A) | `SetOutputMode`, `OutputMode`, `Bank` | `Output port configuration` | Supported | 6.2.12, [p. 12](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=12) |
+| [Pin direction](docs/api-guide.md) | Makes each of the 16 pins an input or an output; every pin is an input after power-on | `SetDirection`, `Direction` | `Configuration 0` (`kConfigPort0`) | Supported | 6.2.5, [p. 8](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=8) |
+| [Outputs](docs/api-guide.md) | Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED | `SetOutputs`, `WriteOutputs`, `ToggleOutputs`, `ReadOutputLatch` | `Output port 0` (`kOutputPort0`) | Supported | 6.2.3, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
+| [Inputs and polarity](docs/api-guide.md) | Reads the level of every pin, each one optionally inverted | `ReadInputs`, `ReadPin`, `SetPolarityInversion` | `Input port 0` (`kInputPort0`), `Polarity inversion 0` (`kPolarityPort0`) | Supported | 6.2.2, [p. 7](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=7) |
+| [Interrupt](docs/api-guide.md) | Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin | `SetInterruptEnabled`, `ReadInterruptStatus`, `GetLatchedInterrupts` | `Input port 0` (`kInputPort0`), `Interrupt mask 0` (`kInterruptMask0`), `Interrupt status 0` (`kInterruptStatus0`) | Supported | 6.5, [p. 14](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=14) |
+| [Pull-up and pull-down](docs/agile-io.md) | Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor (PCAL9555A) | `SetPull`, `Pull` | `Pull-up/pull-down enable 0` (`kPullEnable0`), `Pull-up/pull-down selection 0` (`kPullSelect0`) | Supported | 6.2.8, [p. 10](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=10) |
+| [Input latch](docs/agile-io.md) | Keeps a short input change until the input port is read, so a pulse is not missed (PCAL9555A) | `SetInputLatch` | `Input latch 0` (`kInputLatch0`) | Supported | 6.2.7, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
+| [Output drive strength](docs/agile-io.md) | Sets one of four output current levels per pin, to tune the edge rate and the switching noise (PCAL9555A) | `SetDriveStrength`, `DriveStrength` | `Drive strength 0` (`kDriveStrength0`), `Drive strength 2` (`kDriveStrength2`) | Supported | 6.2.6, [p. 9](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=9) |
+| [Open-drain outputs](docs/agile-io.md) | Switches each 8-pin port between push-pull and open-drain outputs (PCAL9555A) | `SetOutputMode`, `OutputMode`, `Bank` | `Output port configuration` (`kOutputPortConfig`) | Supported | 6.2.12, [p. 12](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=12) |
 | [Address and reset](docs/contract.md) | Finds the chip at one of eight addresses and notices a power-on reset mid-session | `EnsureInitialized`, `CheckForReset`, `GetAddress` | - | Supported | 6.1, [p. 5](https://www.nxp.com/docs/en/data-sheet/PCAL9555A.pdf#page=5) |
 
 **Supported**: the driver covers it and a host test checks it.
 
 From [`docs/hardware.yml`](docs/hardware.yml); `kokeb-docs hardware --check` confirms that every API name is in
-`inc/pcal9555.hpp`, `inc/pcal9555_types.hpp` and every register in `inc/pcal9555_registers.hpp`.
+`inc/pcal9555.hpp`, `inc/pcal9555_types.hpp` and every register (the header constant in brackets, where the header
+spells it otherwise) in `inc/pcal9555_registers.hpp`.
 <!-- /generated -->
 
 This driver sets the pins, reads them and finds the source of an interrupt, and on the PCAL9555A also sets the drive

@@ -78,30 +78,37 @@ driver:
 capabilities:
   - {id: direction, title: Pin direction, icon: flow, status: supported, ref: config, docs: api-guide.md,
      what: "Makes each of the 16 pins an input or an output; every pin is an input after power-on",
-     api: [SetDirection, Direction], registers: [Configuration 0]}
+     api: [SetDirection, Direction], registers: [{name: "Configuration 0", header: kConfigPort0}]}
   - {id: outputs, title: Outputs, icon: light, status: supported, ref: output, docs: api-guide.md,
      what: "Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED",
-     api: [SetOutputs, WriteOutputs, ToggleOutputs, ReadOutputLatch], registers: [Output port 0]}
+     api: [SetOutputs, WriteOutputs, ToggleOutputs, ReadOutputLatch],
+     registers: [{name: "Output port 0", header: kOutputPort0}]}
   - {id: inputs, title: Inputs and polarity, icon: switch, status: supported, ref: input, docs: api-guide.md,
      what: "Reads the level of every pin, each one optionally inverted",
-     api: [ReadInputs, ReadPin, SetPolarityInversion], registers: [Input port 0, Polarity inversion 0]}
+     api: [ReadInputs, ReadPin, SetPolarityInversion],
+     registers: [{name: "Input port 0", header: kInputPort0}, {name: "Polarity inversion 0", header: kPolarityPort0}]}
   - {id: interrupt, title: Interrupt, icon: alert, status: supported, ref: int, docs: api-guide.md,
      what: "Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin",
      api: [SetInterruptEnabled, ReadInterruptStatus, GetLatchedInterrupts],
-     registers: [Input port 0, Interrupt mask 0, Interrupt status 0]}
+     registers: [{name: "Input port 0", header: kInputPort0}, {name: "Interrupt mask 0", header: kInterruptMask0},
+                 {name: "Interrupt status 0", header: kInterruptStatus0}]}
   - {id: pull, title: Pull-up and pull-down, icon: settings, status: supported, ref: pull, docs: agile-io.md,
      what: "Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor",
      note: "PCAL9555A", api: [SetPull, Pull],
-     registers: [Pull-up/pull-down enable 0, Pull-up/pull-down selection 0]}
+     registers: [{name: "Pull-up/pull-down enable 0", header: kPullEnable0},
+                 {name: "Pull-up/pull-down selection 0", header: kPullSelect0}]}
   - {id: latch, title: Input latch, icon: lock, status: supported, ref: latch, docs: agile-io.md,
      what: "Keeps a short input change until the input port is read, so a pulse is not missed",
-     note: "PCAL9555A", api: [SetInputLatch], registers: [Input latch 0]}
+     note: "PCAL9555A", api: [SetInputLatch], registers: [{name: "Input latch 0", header: kInputLatch0}]}
   - {id: drive, title: Output drive strength, icon: current, status: supported, ref: drive, docs: agile-io.md,
      what: "Sets one of four output current levels per pin, to tune the edge rate and the switching noise",
-     note: "PCAL9555A", api: [SetDriveStrength, DriveStrength], registers: [Drive strength 0, Drive strength 2]}
+     note: "PCAL9555A", api: [SetDriveStrength, DriveStrength],
+     registers: [{name: "Drive strength 0", header: kDriveStrength0},
+                 {name: "Drive strength 2", header: kDriveStrength2}]}
   - {id: open-drain, title: Open-drain outputs, icon: gate, status: supported, ref: odcfg, docs: agile-io.md,
      what: "Switches each 8-pin port between push-pull and open-drain outputs",
-     note: "PCAL9555A", api: [SetOutputMode, OutputMode, Bank], registers: [Output port configuration]}
+     note: "PCAL9555A", api: [SetOutputMode, OutputMode, Bank],
+     registers: [{name: "Output port configuration", header: kOutputPortConfig}]}
   - {id: reset, title: Address and reset, icon: tag, status: supported, ref: address, docs: contract.md,
      what: "Finds the chip at one of eight addresses and notices a power-on reset mid-session",
      api: [EnsureInitialized, CheckForReset, GetAddress]}
