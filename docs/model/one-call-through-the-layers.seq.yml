@@ -1,0 +1,25 @@
+---
+# Model of the figure 'one-call-through-the-layers'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+kind: seq
+id: one-call-through-the-layers
+title: "One call through the layers"
+alt: >-
+  One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges frames with the
+  chip through your port and returns the result to your code.
+reads: >-
+  Participants, left to right: Your code, PCAL9555<Port> and Your port. The steps run from top to bottom. Your code sends SetOutputs(PinMask(3), false) to PCAL9555<Port>. A note over PCAL9555<Port> says: initialised? mask not 0?. A note over PCAL9555<Port> says: new output pair from the copy: 0xFFF7. PCAL9555<Port> sends Write(0x20, [0x02, 0xF7, 0xFF]) to Your port. Your port returns true to PCAL9555<Port>. A note over PCAL9555<Port> says: copy updated. PCAL9555<Port> returns Result<void>{Ok} to Your code.
+print: landscape
+sources:
+  - docs/model/one-call-through-the-layers.seq.yml
+participants:
+  - {id: app, label: "Your code", tone: magenta}
+  - {id: core, label: "PCAL9555<Port>", tone: green}
+  - {id: port, label: "Your port", tone: teal}
+steps:
+  - {from: app, to: core, label: "SetOutputs(PinMask(3), false)"}
+  - {note: "initialised? mask not 0?", over: [core, port]}
+  - {note: "new output pair from the copy: 0xFFF7", over: [core, port]}
+  - {from: core, to: port, label: "Write(0x20, [0x02, 0xF7, 0xFF])"}
+  - {from: port, to: core, label: "true", return: true}
+  - {note: "copy updated", over: [core, port]}
+  - {from: core, to: app, label: "Result<void>{Ok}", return: true}
