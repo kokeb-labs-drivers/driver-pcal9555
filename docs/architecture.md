@@ -34,19 +34,14 @@ How the driver is built: three layers, one of them yours, and what happens in ea
 
 ## One call through the layers
 
-```mermaid
-sequenceDiagram
-    participant App as Your code
-    participant Core as PCAL9555<Port>
-    participant Port as Your port
-    App->>Core: SetOutputs(PinMask(3), false)
-    Note over Core: initialised? mask not 0?
-    Note over Core: new output pair from the copy: 0xFFF7
-    Core->>Port: Write(0x20, [0x02, 0xF7, 0xFF])
-    Port-->>Core: true
-    Note over Core: copy updated
-    Core-->>App: Result<void>{Ok}
-```
+<!-- figure: one-call-through-the-layers -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/one-call-through-the-layers.dark.svg">
+  <img src="diagrams/one-call-through-the-layers.svg"
+    alt="One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges
+    frames with the chip through your port and returns the result to your code.">
+</picture>
+<!-- /figure -->
 
 ## Design choices
 

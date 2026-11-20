@@ -80,6 +80,23 @@ Drawn from:
 - `public calls` in [`inc/pcal9555.hpp`](../../inc/pcal9555.hpp)
 - `I2cInterface` in [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
 
+## One call through the layers
+
+<!-- figure: one-call-through-the-layers -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="one-call-through-the-layers.dark.svg">
+  <img src="one-call-through-the-layers.svg"
+    alt="One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges
+    frames with the chip through your port and returns the result to your code.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/one-call-through-the-layers.seq.yml`](../model/one-call-through-the-layers.seq.yml)
+
+Drawn from:
+
+- [`docs/model/one-call-through-the-layers.seq.yml`](../model/one-call-through-the-layers.seq.yml)
+
 ## One pin call, and what each outcome leaves
 
 <!-- figure: pin-write -->

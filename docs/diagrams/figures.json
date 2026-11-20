@@ -47,6 +47,23 @@
       "inc/pcal9555_i2c_interface.hpp:I2cInterface"
     ]
   },
+  "one-call-through-the-layers": {
+    "title": "One call through the layers",
+    "alt": "One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges frames with the chip through your port and returns the result to your code.",
+    "description": "Participants, left to right: Your code, PCAL9555<Port> and Your port. The steps run from top to bottom. Your code sends SetOutputs(PinMask(3), false) to PCAL9555<Port>. A note over PCAL9555<Port> says: initialised? mask not 0?. A note over PCAL9555<Port> says: new output pair from the copy: 0xFFF7. PCAL9555<Port> sends Write(0x20, [0x02, 0xF7, 0xFF]) to Your port. Your port returns true to PCAL9555<Port>. A note over PCAL9555<Port> says: copy updated. PCAL9555<Port> returns Result<void>{Ok} to Your code.",
+    "profile": "detail",
+    "width": 646,
+    "source": "docs/model/one-call-through-the-layers.seq.yml",
+    "sources": [
+      "docs/model/one-call-through-the-layers.seq.yml"
+    ],
+    "kind": "seq",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "pin-write": {
     "title": "One pin call, and what each outcome leaves",
     "alt": "Flow chart of SetOutputs(): compute the new pair from the driver's copy, write it, read it back when Verify::ReadBack is passed, then Ok, Bus or WriteMismatch; ReadOutputLatch() reads what the chip holds.",
