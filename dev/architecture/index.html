@@ -1061,7 +1061,7 @@
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Top to bottom, each arrow is a call. Your application calls one object, whose public calls are listed from the umbrella header in inc/. The core turns each call into register reads and writes and hands them to the port contract (the CRTP base in inc/*_interface.hpp), which forwards them, at compile time, to the hooks of the port class you write; your port moves the bytes on the bus. The notes on the right say which layers stay the same on every MCU and which one you write. A library without a port contract has only the first two layers.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>public calls</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a> <code>I2cInterface</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>public calls</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a> <code>I2cInterface</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/docs/diagrams/figures/driver-layers.py"><code>docs/diagrams/figures/driver-layers.py</code></a>.</p>
 </details>
 <h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
 <table>
@@ -1075,17 +1075,17 @@
 <tbody>
 <tr>
 <td>Core</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a></td>
 <td>Lifecycle, the copy of the registers, presence and identity checks, write order, errors</td>
 </tr>
 <tr>
 <td>Types and registers</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_types.hpp"><code>inc/pcal9555_types.hpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_types.hpp"><code>inc/pcal9555_types.hpp</code></a>, <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
 <td><code>Error</code>, <code>Result&lt;T&gt;</code>, <code>Config</code>, <code>Validate()</code>, pin helpers; the register map</td>
 </tr>
 <tr>
 <td>Port contract</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a></td>
 <td>The CRTP base, the <code>I2cPort</code> concept, the register framing</td>
 </tr>
 <tr>
@@ -1095,23 +1095,22 @@
 </tr>
 <tr>
 <td>Kconfig layer</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_kconfig.hpp"><code>inc/pcal9555_kconfig.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_kconfig.hpp"><code>inc/pcal9555_kconfig.hpp</code></a></td>
 <td>Optional: a <code>Config</code> from ESP-IDF menuconfig</td>
 </tr>
 </tbody>
 </table>
 <h2 id="one-call-through-the-layers">One call through the layers<a class="headerlink" href="#one-call-through-the-layers" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>sequenceDiagram
-    participant App as Your code
-    participant Core as PCAL9555&lt;Port&gt;
-    participant Port as Your port
-    App-&gt;&gt;Core: SetOutputs(PinMask(3), false)
-    Note over Core: initialised? mask not 0?
-    Note over Core: new output pair from the copy: 0xFFF7
-    Core-&gt;&gt;Port: Write(0x20, [0x02, 0xF7, 0xFF])
-    Port--&gt;&gt;Core: true
-    Note over Core: copy updated
-    Core--&gt;&gt;App: Result&lt;void&gt;{Ok}</code></pre>
+<figure class="kb-figure">
+<img src="../diagrams/one-call-through-the-layers.svg#only-light" alt="One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges frames with the chip through your port and returns the result to your code." width="646" height="499" loading="lazy"><img src="../diagrams/one-call-through-the-layers.dark.svg#only-dark" alt="One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges frames with the chip through your port and returns the result to your code." width="646" height="499" loading="lazy">
+<figcaption>One call through the layers</figcaption>
+</figure>
+
+<details class="kb-figure-desc">
+<summary>Figure description and sources</summary>
+<p>Participants, left to right: Your code, PCAL9555<Port> and Your port. The steps run from top to bottom. Your code sends SetOutputs(PinMask(3), false) to PCAL9555<Port>. A note over PCAL9555<Port> says: initialised? mask not 0?. A note over PCAL9555<Port> says: new output pair from the copy: 0xFFF7. PCAL9555<Port> sends Write(0x20, [0x02, 0xF7, 0xFF]) to Your port. Your port returns true to PCAL9555<Port>. A note over PCAL9555<Port> says: copy updated. PCAL9555<Port> returns Result<void>{Ok} to Your code.</p>
+<p>Drawn from: <a href="../model/one-call-through-the-layers.seq.yml"><code>docs/model/one-call-through-the-layers.seq.yml</code></a>.</p>
+</details>
 <h2 id="design-choices">Design choices<a class="headerlink" href="#design-choices" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>CRTP, not virtual functions.</strong> The port is a template parameter constrained by the <code>I2cPort</code> concept, so every
@@ -1140,19 +1139,19 @@
 <tbody>
 <tr>
 <td>The public API</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a></td>
 </tr>
 <tr>
 <td>How a call is implemented</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a></td>
 </tr>
 <tr>
 <td>Register addresses and bits</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a></td>
 </tr>
 <tr>
 <td>The port contract</td>
-<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/e2af132f46ea315520c205ab60f4a6a5e9c004e6/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a></td>
+<td><a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_i2c_interface.hpp"><code>inc/pcal9555_i2c_interface.hpp</code></a></td>
 </tr>
 </tbody>
 </table>
