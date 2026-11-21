@@ -49,7 +49,7 @@ topics:
     section: 6.1 Device address
     page: 5
     driver: "`AddressFromPins()`, `kI2cAddress`, `Error::InvalidArgument`"
-    docs: [hardware, porting, troubleshooting]
+    docs: [hardware, porting, troubleshooting, bus]
   - topic: Registers and command bytes
     doc: pcal9555a
     section: 6.2 Registers; 6.2.1 Pointer register and command byte
@@ -132,7 +132,7 @@ topics:
     section: 8 Application design-in information
     page: 20
     driver: "-"
-    docs: [hardware, quickstart]
+    docs: [hardware, quickstart, bus]
   - topic: Supply range and limiting values
     doc: pcal9555a
     section: 9 Limiting values; 10 Recommended operating conditions
@@ -150,7 +150,13 @@ topics:
     section: 13 Dynamic characteristics
     page: 32
     driver: "`kMaxClockHz` (f_SCL, table 33); no waits, so the port has no `DelayUs()`"
-    docs: [hardware, porting]
+    docs: [hardware, porting, bus]
+  - topic: I2C waveform and transaction format
+    doc: pcal9555a
+    section: 14 Parameter measurement information; Figure 29
+    page: 33
+    driver: "-"
+    docs: [bus]
 
   # PCA9555, Rev. 10
   - topic: Pins and package
@@ -164,7 +170,7 @@ topics:
     section: 6.1 Device address
     page: 6
     driver: "`AddressFromPins()`, `kI2cAddress`"
-    docs: [hardware]
+    docs: [hardware, bus]
   - topic: Registers, command bytes and power-up values
     doc: pca9555
     section: 6.2 Registers; 6.2.1 Command byte (Table 4)
@@ -212,4 +218,4 @@ topics:
     section: 11 Dynamic characteristics
     page: 20
     driver: "-"
-    docs: [hardware]
+    docs: [hardware, bus]

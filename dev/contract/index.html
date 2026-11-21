@@ -102,72 +102,6 @@
   <meta property="og:description" content="C++20 driver for the PCA9555 and PCAL9555A 16-bit I2C GPIO expanders.">
   <meta property="og:url" content="https://kokeb-labs-drivers.github.io/driver-pcal9555/latest/contract/">
   <meta name="twitter:card" content="summary">
-  <script>
-(function () {
-  if (typeof mermaid != "undefined" && !(mermaid instanceof Element)) return;
-  var SRC = "https://unpkg.com/mermaid@11.17.2/dist/mermaid.min.js",
-      SRI = "sha384-EOXBFmc3gx5mb+vn0vPvvGqACToJD24hhacX5Yx+8NUUQrHIle/Qi5Bg9o3zKwW2", config = {}, real, loading;
-  var waiting = [], io = null, ahead = false, ENGAGE = ["scroll", "keydown", "pointerdown", "touchstart"];
-  var stub = {
-    initialize: function (c) { config = c || {}; if (real) real.initialize(config); },
-    render: function (id, text) {
-      var el = null, pres = document.querySelectorAll("pre.mermaid:not([data-kb-mermaid])");
-      for (var i = 0; i < pres.length && !el; i++) if (pres[i].textContent === text) el = pres[i];
-      if (el) el.setAttribute("data-kb-mermaid", "");
-      return near(el).then(load).then(function (m) { return m.render(id, text); });
-    }
-  };
-  function load() {
-    return loading || (loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = SRC;
-      s.integrity = SRI;
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        real = window.mermaid;
-        window.mermaid = stub;
-        real.initialize(config);
-        resolve(real);
-      };
-      s.onerror = function () { loading = null; reject(new Error("Mermaid did not load")); };
-      document.head.appendChild(s);
-    }));
-  }
-  // One observer for the diagrams still waiting: on the screen only until the reader engages, then a screen ahead.
-  function watch() {
-    if (io) io.disconnect();
-    io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) release(function (w) { return w.el === e.target; });
-      });
-    }, { rootMargin: ahead ? "100% 0px" : "0px" });
-    waiting.forEach(function (w) { io.observe(w.el); });
-  }
-  function release(which) {
-    waiting = waiting.filter(function (w) {
-      if (!which(w)) return true;
-      io.unobserve(w.el);
-      w.go();
-      return false;
-    });
-  }
-  function near(el) {
-    if (real || !el || !("IntersectionObserver" in window)) return Promise.resolve();
-    return new Promise(function (resolve) {
-      waiting.push({ el: el, go: resolve });
-      if (io) io.observe(el); else watch();
-    });
-  }
-  function engaged() {
-    ENGAGE.forEach(function (t) { window.removeEventListener(t, engaged, true); });
-    ahead = true;
-    if (io) watch();
-  }
-  ENGAGE.forEach(function (t) { window.addEventListener(t, engaged, { capture: true, passive: true }); });
-  window.addEventListener("beforeprint", function () { if (io) release(function () { return true; }); });
-  window.mermaid = stub;
-})();
-</script>
 
   </head>
   
@@ -505,6 +439,8 @@
   
     
     
+      
+        
       
         
       
@@ -1180,7 +1116,7 @@ this page states only what is specific to it. A change to anything here is a bre
 <details class="kb-figure-desc">
 <summary>Figure description and sources</summary>
 <p>Top to bottom on the left, the steps of the first EnsureInitialized() call; once it has succeeded, the call returns Ok at once with no I/O. The configuration and the address are checked before any I/O. Then the port brings the bus up, and the presence check reads the input ports; on a PCAL9555A it also reads 0x4F, whose reserved bits must be 0. Every register the driver owns is then written, in the order the code uses: on a PCAL9555A the Agile I/O bank first and 0x4F after it, then the output values before the directions, so a new output starts at its configured level. Every register is read back, unconditionally; a register that does not hold what was written means another part answers. Each card on the right is the error a step returns. After any failure the driver stays uninitialised and the next call starts again at the top.</p>
-<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a> <code>EnsureInitialized, initialize, checkPresence, writeAll, verifyAll</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>StandardPairs, AgilePairs</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_types.hpp"><code>inc/pcal9555_types.hpp</code></a> <code>Validate, kMinI2cAddress, kMaxI2cAddress</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> <code>register constants</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/11cf831f89cc7f0e0c2ad1ca2d158acfad171d4e/docs/diagrams/figures/start-up.py"><code>docs/diagrams/figures/start-up.py</code></a>.</p>
+<p>Drawn from: <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/05957925274587915f5f9c9abddcf9a7e60de3b8/src/pcal9555.ipp"><code>src/pcal9555.ipp</code></a> <code>EnsureInitialized, initialize, checkPresence, writeAll, verifyAll</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/05957925274587915f5f9c9abddcf9a7e60de3b8/inc/pcal9555.hpp"><code>inc/pcal9555.hpp</code></a> <code>StandardPairs, AgilePairs</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/05957925274587915f5f9c9abddcf9a7e60de3b8/inc/pcal9555_types.hpp"><code>inc/pcal9555_types.hpp</code></a> <code>Validate, kMinI2cAddress, kMaxI2cAddress</code>; <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/05957925274587915f5f9c9abddcf9a7e60de3b8/inc/pcal9555_registers.hpp"><code>inc/pcal9555_registers.hpp</code></a> <code>register constants</code>; figure module <a href="https://github.com/kokeb-labs-drivers/driver-pcal9555/blob/05957925274587915f5f9c9abddcf9a7e60de3b8/docs/diagrams/figures/start-up.py"><code>docs/diagrams/figures/start-up.py</code></a>.</p>
 </details>
 <h2 id="depends-on">Depends on<a class="headerlink" href="#depends-on" title="Permanent link">&para;</a></h2>
 <table>
