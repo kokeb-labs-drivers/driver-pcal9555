@@ -83,6 +83,40 @@
       "inc/pcal9555_i2c_interface.hpp:I2cInterface"
     ]
   },
+  "i2c-timing": {
+    "title": "I2C timing in Fast-mode",
+    "alt": "I2C timing of the PCAL9555A in Fast-mode: the start condition, the address byte with the read bit, the acknowledge and the stop condition, with the bus free, start, clock, setup, valid and stop times of the data sheet.",
+    "description": "The two lanes are SCL and SDA, left to right in time. After the bus free time SDA falls while SCL is high (the start), the address bits follow from bit 7, each stable while SCL is high, the bits in between are left out, then the read bit and the acknowledge of the expander, and SDA rises while SCL is high (the stop).",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/i2c-timing.timing.yml",
+    "sources": [
+      "docs/model/i2c-timing.timing.yml"
+    ],
+    "kind": "timing",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": true,
+    "font": ""
+  },
+  "i2c-topology": {
+    "title": "Several expanders on one I2C bus",
+    "alt": "An I2C bus on which an MCU and up to eight PCAL9555A expanders share SCL and SDA, each at the address its pins A2, A1 and A0 select, with a 10 kΩ pull-up resistor per line.",
+    "description": "The MCU on top and the PCAL9555A expanders under it connect to the rails SCL and SDA on the right; the dashed card stands for the expanders in between. The first PCAL9555A answers at 0x20 and the last at 0x27, and one pull-up per line ties the bus to VDD.",
+    "profile": "phone",
+    "width": 640,
+    "source": "docs/model/i2c-topology.topology.yml",
+    "sources": [
+      "docs/model/i2c-topology.topology.yml"
+    ],
+    "kind": "topology",
+    "palette": 2,
+    "print": "landscape",
+    "adaptive": true,
+    "twin": false,
+    "font": ""
+  },
   "one-call-through-the-layers": {
     "title": "One call through the layers",
     "alt": "One call through the layers: your code calls SetOutputs(PinMask(3), false), the core exchanges frames with the chip through your port and returns the result to your code.",

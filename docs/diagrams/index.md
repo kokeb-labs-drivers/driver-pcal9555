@@ -148,6 +148,41 @@ Drawn from:
 - `public calls` in [`inc/pcal9555.hpp`](../../inc/pcal9555.hpp)
 - `I2cInterface` in [`inc/pcal9555_i2c_interface.hpp`](../../inc/pcal9555_i2c_interface.hpp)
 
+## I2C timing in Fast-mode
+
+<!-- figure: i2c-timing -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="i2c-timing.dark.svg">
+  <img src="i2c-timing.svg"
+    alt="I2C timing of the PCAL9555A in Fast-mode: the start condition, the address byte with the read bit,
+    the acknowledge and the stop condition, with the bus free, start, clock, setup, valid and stop times
+    of the data sheet.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/i2c-timing.timing.yml`](../model/i2c-timing.timing.yml)
+
+Drawn from:
+
+- [`docs/model/i2c-timing.timing.yml`](../model/i2c-timing.timing.yml)
+
+## Several expanders on one I2C bus
+
+<!-- figure: i2c-topology -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="i2c-topology.dark.svg">
+  <img src="i2c-topology.svg"
+    alt="An I2C bus on which an MCU and up to eight PCAL9555A expanders share SCL and SDA, each at the
+    address its pins A2, A1 and A0 select, with a 10 kΩ pull-up resistor per line.">
+</picture>
+<!-- /figure -->
+
+Hardware description: [`docs/model/i2c-topology.topology.yml`](../model/i2c-topology.topology.yml)
+
+Drawn from:
+
+- [`docs/model/i2c-topology.topology.yml`](../model/i2c-topology.topology.yml)
+
 ## One call through the layers
 
 <!-- figure: one-call-through-the-layers -->

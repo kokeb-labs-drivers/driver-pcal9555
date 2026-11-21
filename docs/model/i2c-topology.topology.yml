@@ -1,0 +1,30 @@
+---
+# Model of the figure 'i2c-topology'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+# Section 6.1 of the PCAL9555A data sheet: the pins A2, A1 and A0 select one of eight addresses.
+kind: topology
+id: i2c-topology
+title: Several expanders on one I2C bus
+kicker: Several devices
+alt: >-
+  An I2C bus on which an MCU and up to eight PCAL9555A expanders share SCL and SDA, each at the address its pins
+  A2, A1 and A0 select, with a 10 kΩ pull-up resistor per line.
+reads: >-
+  The MCU on top and the PCAL9555A expanders under it connect to the rails SCL and SDA on the right; the dashed card
+  stands for the expanders in between. The first PCAL9555A answers at 0x20 and the last at 0x27, and one pull-up per
+  line ties the bus to VDD.
+print: landscape
+sources:
+  - docs/model/i2c-topology.topology.yml
+style: bus
+refs:
+  address-9555: {doc: pca9555, section: "6.1 Device address", page: 6}
+host: {label: MCU, detail: I2C controller}
+nodes:
+  - {label: PCAL9555A, address: "0x20, A2 to A0 low", ref: address}
+  - {more: true, label: "…", detail: one address per chip}
+  - {label: PCAL9555A, address: "0x27, A2 to A0 high", ref: address}
+shared: [SCL, SDA]
+pullups: {label: "10 kΩ pull-ups to VDD", ref: app}
+facts:
+  - {text: "Eight addresses, 0x20 to 0x27, chosen by A2, A1 and A0", ref: address}
+  - {text: "The PCA9555 uses the same eight addresses", ref: address-9555}
