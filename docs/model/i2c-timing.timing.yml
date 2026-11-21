@@ -1,0 +1,58 @@
+---
+# Model of the figure 'i2c-timing'. Edit this file; `kokeb-docs figures` draws it. Never edit the SVGs.
+# The waveform follows Figure 29 of the PCAL9555A data sheet (one address byte of a read); every value is the
+# Fast-mode column of Table 33, which is the driver's `kMaxClockHz` of 400 kHz. Keys: docs/figkit.md in ci-tools.
+kind: timing
+id: i2c-timing
+title: I2C timing in Fast-mode
+kicker: On the bus
+alt: >-
+  I2C timing of the PCAL9555A in Fast-mode: the start condition, the address byte with the read bit, the
+  acknowledge and the stop condition, with the bus free, start, clock, setup, valid and stop times of the data sheet.
+reads: >-
+  The two lanes are SCL and SDA, left to right in time. After the bus free time SDA falls while SCL is high (the
+  start), the address bits follow from bit 7, each stable while SCL is high, the bits in between are left out, then
+  the read bit and the acknowledge of the expander, and SDA rises while SCL is high (the stop).
+print: landscape
+sources:
+  - docs/model/i2c-timing.timing.yml
+bus: i2c
+refs:
+  i2c-fig: {doc: pcal9555a, section: "14 Parameter measurement information, Figure 29", page: 33}
+  dynamic-9555: {doc: pca9555, section: "11 Dynamic characteristics, Table 15", page: 20}
+signals:
+  - {id: scl, label: SCL, wave: "11nn|nnnn11"}
+  - {id: sda, label: SDA, wave: "10==|===01.", data: [b7, b6, b1, R, A]}
+groups:
+  - {from: 1, to: 2, label: S}
+  - {from: 2, to: 7, label: "address 0x20 to 0x27 and R", ref: address}
+  - {from: 7, to: 8, label: ACK, ref: i2c-fig}
+  - {from: 9, to: 10, label: P}
+params:
+  - {id: fscl, symbol: fSCL, label: SCL clock frequency, min: 0, max: 400, unit: kHz, ref: dynamic}
+  - {id: tbuf, symbol: tBUF, label: Bus free time between a STOP and a START condition, min: 1.3, unit: µs,
+     ref: dynamic}
+  - {id: thd-sta, symbol: tHD;STA, label: Hold time of a (repeated) START condition, min: 0.6, unit: µs,
+     ref: dynamic}
+  - {id: tlow, symbol: tLOW, label: LOW period of the SCL clock, min: 1.3, unit: µs, ref: dynamic}
+  - {id: thigh, symbol: tHIGH, label: HIGH period of the SCL clock, min: 0.6, unit: µs, ref: dynamic}
+  - {id: tsu-dat, symbol: tSU;DAT, label: Data setup time, min: 100, unit: ns, ref: dynamic}
+  - {id: thd-dat, symbol: tHD;DAT, label: Data hold time, min: 0, unit: ns, ref: dynamic}
+  - {id: tvd-ack, symbol: tVD;ACK, label: SCL LOW to the acknowledge on SDA, max: 0.9, unit: µs, ref: dynamic}
+  - {id: tvd-dat, symbol: tVD;DAT, label: SCL LOW to SDA output valid, max: 0.9, unit: µs, ref: dynamic}
+  - {id: tsu-sta, symbol: tSU;STA, label: Setup time of a repeated START condition, min: 0.6, unit: µs,
+     ref: dynamic}
+  - {id: tsu-sto, symbol: tSU;STO, label: Setup time of a STOP condition, min: 0.6, unit: µs, ref: dynamic}
+  - {id: tr, symbol: tr, label: Rise time of SDA and SCL, min: 20, max: 300, unit: ns, ref: dynamic}
+  - {id: tf, symbol: tf, label: Fall time of SDA and SCL, max: 300, unit: ns, ref: dynamic}
+  - {id: tsp, symbol: tSP, label: Spikes the input filter suppresses, max: 50, unit: ns, ref: dynamic}
+marks:
+  - {param: tbuf, signal: scl, from: 0, to: 1}
+  - {param: tlow, signal: scl, from: 2, to: 2.5}
+  - {param: thigh, signal: scl, from: 2.5, to: 3}
+  - {param: thd-sta, signal: sda, from: 1, to: 2}
+  - {param: tsu-dat, signal: sda, from: 3, to: 3.5}
+  - {param: tvd-ack, signal: sda, from: 7, to: 7.4}
+  - {param: tsu-sto, signal: sda, from: 8.5, to: 9}
+notes:
+  - {text: "The PCA9555 runs at the same 400 kHz; its own limits are in its Table 15.", ref: dynamic-9555}

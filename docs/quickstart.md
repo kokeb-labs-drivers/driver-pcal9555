@@ -38,8 +38,8 @@ and runs this example on every pull request.
 
 | MCU | PCA9555 / PCAL9555A | Notes |
 | --- | --- | --- |
-| I2C SCL | SCL | Pull-up to VDD; 4.7 kΩ suits 100 kHz and 400 kHz |
-| I2C SDA | SDA | Pull-up to VDD |
+| I2C SCL | SCL | 10 kΩ pull-up to VDD (datasheet Figure 13); less on a long or loaded bus at 400 kHz |
+| I2C SDA | SDA | 10 kΩ pull-up to VDD |
 | GND | A0, A1, A2 | Address `0x20` (`kI2cAddress`); never leave them open |
 | 3.3 V | VDD | 100 nF to GND close to the pin |
 | GND | VSS | |

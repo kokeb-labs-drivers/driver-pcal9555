@@ -22,11 +22,98 @@ refs:
   supply: {doc: pcal9555a, section: "10 Recommended operating conditions", page: 25}
   static: {doc: pcal9555a, section: "12 Static characteristics", page: 27}
   dynamic: {doc: pcal9555a, section: "13 Dynamic characteristics", page: 32}
+  cover: {doc: pcal9555a, section: "1 General description", page: 1}
+  features: {doc: pcal9555a, section: "2 Features and benefits", page: 2}
+  input: {doc: pcal9555a, section: "6.2.2 Input port register pair (00h, 01h)", page: 7}
+  output: {doc: pcal9555a, section: "6.2.3 Output port register pair (02h, 03h)", page: 7}
+  config: {doc: pcal9555a, section: "6.2.5 Configuration register pair (06h, 07h)", page: 8}
+  drive: {doc: pcal9555a, section: "6.2.6 Output drive strength register pairs (40h, 41h, 42h, 43h)", page: 9}
+  latch: {doc: pcal9555a, section: "6.2.7 Input latch register pair (44h, 45h)", page: 9}
+  pull: {doc: pcal9555a, section: "6.2.8 Pull-up/pull-down enable register pair (46h, 47h)", page: 10}
+  odcfg: {doc: pcal9555a, section: "6.2.12 Output port configuration register (4Fh)", page: 12}
 
 package:
   type: TSSOP-24
   pins: 24
   ref: pinout
+
+supply:
+  - {name: VDD, min_v: 1.65, max_v: 5.5, ref: supply}
+
+# The chip-first README: what the chip is and does, where it is used and how the driver covers it.
+# `kokeb-docs figures` draws chip-hero and chip-capabilities from it, `kokeb-docs gen` the README's chip-summary,
+# chip-uses and chip-coverage regions. No frame figure: an I2C access is a register stream of any length.
+overview:
+  summary: >-
+    a 16-bit I/O expander that adds sixteen inputs or outputs on an I2C bus, with an interrupt line for input
+    changes and, as the Agile I/O of the PCAL9555A, pull resistors, input latches and drive strength per pin
+  category: 16-bit I2C GPIO expander
+  ref: cover
+  applications:
+    - Power switches
+    - Sensors
+    - Push buttons
+    - LEDs
+    - Fan control
+  specs:
+    - {value: "16", label: "I/O pins in two 8-bit ports", ref: cover}
+    - {value: "1.65 to 5.5 V", label: "supply; 5 V tolerant I/O", ref: features}
+    - {value: "400 kHz", label: "I2C, Fast-mode", ref: features}
+    - {value: "25 mA", label: "output sink, enough for an LED", ref: features}
+    - {value: "8", label: "chips on one bus, address 0x20 to 0x27", ref: address}
+    - {value: "1.0 µA", label: "standby, typical at 3.3 V", ref: features}
+  system:
+    host: MCU
+    bus: I2C
+    drives:
+      - {label: LEDs and loads, detail: "latched outputs, sinking up to 25 mA", ref: features}
+    senses:
+      - {label: Buttons and switches, detail: "inputs, with pull resistors on the PCAL9555A", ref: ports}
+
+# Headers the capability `api` and `registers` names are checked against.
+driver:
+  api: [inc/pcal9555.hpp, inc/pcal9555_types.hpp]
+  registers: [inc/pcal9555_registers.hpp]
+
+capabilities:
+  - {id: direction, title: Pin direction, icon: flow, status: supported, ref: config, docs: api-guide.md,
+     what: "Makes each of the 16 pins an input or an output; every pin is an input after power-on",
+     api: [SetDirection, Direction], registers: [{name: "Configuration port 0", header: kConfigPort0}]}
+  - {id: outputs, title: Outputs, icon: light, status: supported, ref: output, docs: api-guide.md,
+     what: "Sets, writes or toggles latched outputs that sink up to 25 mA, enough to light an LED",
+     api: [SetOutputs, WriteOutputs, ToggleOutputs, ReadOutputLatch],
+     registers: [{name: "Output port 0", header: kOutputPort0}]}
+  - {id: inputs, title: Inputs and polarity, icon: switch, status: supported, ref: input, docs: api-guide.md,
+     what: "Reads the level of every pin, each one optionally inverted",
+     api: [ReadInputs, ReadPin, SetPolarityInversion],
+     registers: [{name: "Input port 0", header: kInputPort0},
+                 {name: "Polarity Inversion port 0", header: kPolarityPort0}]}
+  - {id: interrupt, title: Interrupt, icon: alert, status: supported, ref: int, docs: api-guide.md,
+     what: "Pulls the open-drain INT low on an input change; the PCAL9555A adds a mask and the source per pin",
+     api: [SetInterruptEnabled, ReadInterruptStatus, GetLatchedInterrupts],
+     registers: [{name: "Input port 0", header: kInputPort0},
+                 {name: "Interrupt mask register 0", header: kInterruptMask0},
+                 {name: "Interrupt status register 0", header: kInterruptStatus0}]}
+  - {id: pull, title: Pull-up and pull-down, icon: settings, status: supported, ref: pull, docs: agile-io.md,
+     what: "Enables a 100 kΩ pull-up or pull-down per pin, so a button needs no external resistor",
+     note: "PCAL9555A", api: [SetPull, Pull],
+     registers: [{name: "Pull-up/pull-down enable register 0", header: kPullEnable0},
+                 {name: "Pull-up/pull-down selection register 0", header: kPullSelect0}]}
+  - {id: latch, title: Input latch, icon: lock, status: supported, ref: latch, docs: agile-io.md,
+     what: "Keeps a short input change until the input port is read, so a pulse is not missed",
+     note: "PCAL9555A", api: [SetInputLatch], registers: [{name: "Input latch register 0", header: kInputLatch0}]}
+  - {id: drive, title: Output drive strength, icon: current, status: supported, ref: drive, docs: agile-io.md,
+     what: "Sets one of four output current levels per pin, to tune the edge rate and the switching noise",
+     note: "PCAL9555A", api: [SetDriveStrength, DriveStrength],
+     registers: [{name: "Output drive strength register 0", header: kDriveStrength0},
+                 {name: "Output drive strength register 1", header: kDriveStrength2}]}
+  - {id: open-drain, title: Open-drain outputs, icon: gate, status: supported, ref: odcfg, docs: agile-io.md,
+     what: "Switches each 8-pin port between push-pull and open-drain outputs",
+     note: "PCAL9555A", api: [SetOutputMode, OutputMode, Bank],
+     registers: [{name: "Output port configuration register", header: kOutputPortConfig}]}
+  - {id: reset, title: Address and reset, icon: tag, status: supported, ref: address, docs: contract.md,
+     what: "Finds the chip at one of eight addresses and notices a power-on reset mid-session",
+     api: [EnsureInitialized, CheckForReset, GetAddress]}
 
 hooks:
   - {id: i2c, call: "Write() / WriteRead()", kind: i2c, source: inc/pcal9555_i2c_interface.hpp, symbol: WriteRead}
